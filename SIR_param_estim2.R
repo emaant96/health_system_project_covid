@@ -6,10 +6,11 @@ DatasetCovid <-
       'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
     )
   )
-
-Infetti <- DatasetCovid$totale_positivi[150:360]
+initDs <- 200
+fineDs <- 360
+Infetti <- DatasetCovid$totale_positivi[initDs:fineDs]
 Rimossi <-
-  DatasetCovid$dimessi_guariti[150:360] + DatasetCovid$deceduti[150:360] - DatasetCovid$dimessi_guariti[150] - DatasetCovid$deceduti[150]
+  DatasetCovid$dimessi_guariti[initDs:fineDs] + DatasetCovid$deceduti[initDs:fineDs] - DatasetCovid$dimessi_guariti[initDs] - DatasetCovid$deceduti[initDs]
 
 Pop <- 59000000
 Day <- 0:(length(Infetti) - 1)
@@ -18,7 +19,7 @@ NrowLossArray <- 8
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- FALSE
+exec_optim <- TRUE
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
