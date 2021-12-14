@@ -15,11 +15,11 @@ Rimossi <-
 Pop <- 59000000
 Day <- 0:(length(Infetti) - 1)
 NInit <- Pop * 0.05
-NrowLossArray <- 8
+NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- TRUE
+exec_optim <- FALSE
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
@@ -51,15 +51,15 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
   
-  diff <- sum((out$I - cases)^2)
+  diff <- sum(0.25 * (out$I - cases)^2 + 0.25 * (out$R - Rimossi)^2 + 0.50 *(out$I + out$R - (cases + Rimossi))^2)
   print(diff)
   sse <- diff
 }
 
 if (exec_optim) {
-  init <- 1
+  init <- 0.1
   passo <- 0.1
-  fine <- init + passo * NrowLossArray;
+  fine <- init + passo * (NrowLossArray - 1);
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
     
@@ -84,7 +84,10 @@ if (exec_optim) {
     cat("counter: ", counter)
   }
 
-  idxRes <- match(min(lossArray[,3]),lossArray[,3])
+  idxRes <- match(
+    min(lossArray[,3]),
+    lossArray[,3]
+  )
 
   betaRes <- lossArray[idxRes,1]
   gammaRes <- lossArray[idxRes,2]
@@ -93,12 +96,15 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- Pop * 0.05 * 1.3
-  betaRes <- 0.074# 0.067
-  gammaRes <- 0.035# 0.027
+  N <- Pop * 0.05 * 1
+  betaRes <- 0.078
+  gammaRes <- 0.028
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
+RZero <- betaRes/gammaRes
+
+cat("il valore ottimo di R0 è: ", RZero)
 Suscettibili <- N - Rimossi - Infetti
 dati_reali <- cbind(cbind(Suscettibili,Infetti),Rimossi)
 
@@ -114,7 +120,7 @@ plot(
   col = 'red'
 )
 
-t <- seq(1, 360, by = 1)
+t <- seq(1, fineDs, by = 1)
 
 mod.pred <- as.data.frame(
   ode(
@@ -134,7 +140,7 @@ matplot(
   type = "l",
   xlab = "Time",
   ylab = "Susceptibles and Recovereds",
-  main = "COVID-19 SIR Model, Italy (2020-07-22 - 2021-07-22)",
+  main = "COVID-19 SIR Model, Italy (2020-09-10 - 2021-09-05)",
   lwd = 1,
   lty = 1,
   bty = "l",

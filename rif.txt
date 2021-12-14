@@ -1,0 +1,12 @@
+ARIMA
+https://rpubs.com/riazakhan94/arima_with_example
+
+SIR
+https://cran.r-project.org/web/packages/EpiDynamics/EpiDynamics.pdf
+https://stackoverflow.com/questions/25268888/what-does-c-do-in-r
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7570398/
+
+https://cran.r-project.org/web/packages/shinySIR/vignettes/Vignette.html
+http://sherrytowers.com/2013/01/29/neiu-lecture-vi-fitting-the-parameters-of-an-sir-model-to-influenza-data/
+
+https://towardsdatascience.com/infectious-disease-modelling-fit-your-model-to-coronavirus-data-2568e672dbc7
