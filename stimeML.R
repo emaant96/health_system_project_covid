@@ -1,7 +1,7 @@
 require(deSolve)
 
 Infected <- read.csv(url('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'))
-Infected <-  Infected$totale_positivi[150:360]
+Infected <-  Infected$totale_positivi[200:360]
 
 dim <- 100
 Day <- 0:(length(Infected)-1)
@@ -27,7 +27,7 @@ paramResults <- array(0,dim)
 
 for( i in 1:dim){
 
-  beta <- 10.227
+  beta <-
   gamma <- 0.0053
   pars <- c(beta,gamma)
 
@@ -60,22 +60,3 @@ plot(
   col = 'red'
 )
 
-matplot(
-  Day,
-  mod.pred[,2:4],
-  type = "l",
-  xlab = "Time",
-  ylab = "Susceptibles and Recovereds",
-  main = "SIR Model, COVID-19, Italy, Estimated",
-  lwd = 1,
-  lty = 1,
-  bty = "l",
-  col = 2:4
-)
-legend(
-  x= "right",
-  y=0.92,
-  c("Susceptibles", "Infecteds", "Recovereds"),
-  pch = 1,
-  col = 2:4
-)
