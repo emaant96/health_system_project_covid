@@ -6,8 +6,8 @@ DatasetCovid <-
       'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
     )
   )
-initDs <- 200
-fineDs <- 360
+initDs <- 500
+fineDs <- 610
 Infetti <- DatasetCovid$totale_positivi[initDs:fineDs]
 Rimossi <-
   DatasetCovid$dimessi_guariti[initDs:fineDs] + DatasetCovid$deceduti[initDs:fineDs] - DatasetCovid$dimessi_guariti[initDs] - DatasetCovid$deceduti[initDs]
@@ -37,7 +37,6 @@ closed.sir.model <- function (t, x, params) {
 
 sse.sir <- function(params0) {
   t <- Day
-  cases <- Infetti
   beta <- params0[1]
   gamma <- params0[2]
   S0 <- S0
@@ -51,7 +50,7 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
   
-  diff <- sum(0.25 * (out$I - cases)^2 + 0.25 * (out$R - Rimossi)^2 + 0.50 *(out$I + out$R - (cases + Rimossi))^2)
+  diff <- sum(0.25 * (out$I - Infetti)^2 + 0.25 * (out$R - Rimossi)^2 + 0.50 *(out$I + out$R - (Infetti + Rimossi))^2)
   print(diff)
   sse <- diff
 }
@@ -76,8 +75,6 @@ if (exec_optim) {
       lower = c(0.001, 1 / 42),
       upper = c(1, 1 / 11)
     )
-
-    print(fit$par)
     
     lossArray[counter, ] <- c(fit$par[1], fit$par[2], fit$value, prop)
     counter <- counter + 1
@@ -96,15 +93,16 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- Pop * 0.05 * 1
-  betaRes <- 0.078
-  gammaRes <- 0.028
+  N <- Pop * 0.05 * 0.3
+  betaRes <- 0.076
+  gammaRes <- 0.044
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
 RZero <- betaRes/gammaRes
 
 cat("il valore ottimo di R0 è: ", RZero)
+
 Suscettibili <- N - Rimossi - Infetti
 dati_reali <- cbind(cbind(Suscettibili,Infetti),Rimossi)
 
@@ -115,7 +113,7 @@ plot(
   Day,
   Infetti,
   type = 'b',
-  xlab = 'Day',
+  xlab = 'Tempo',
   ylab = 'I(t)',
   col = 'red'
 )
@@ -138,9 +136,9 @@ matplot(
   t,
   mod.pred[, 2:4],
   type = "l",
-  xlab = "Time",
-  ylab = "Susceptibles and Recovereds",
-  main = "COVID-19 SIR Model, Italy (2020-09-10 - 2021-09-05)",
+  xlab = "Tempo",
+  ylab = "Popolazione",
+  main = "COVID-19 SIR, Italia (2020-09-10 - 2021-09-05)",
   lwd = 1,
   lty = 1,
   bty = "l",
@@ -159,7 +157,7 @@ matplot(
 legend(
   x = "right",
   y = 0.92,
-  c("Susceptibles", "Infetti", "Recovereds"),
+  c("Suscettibili", "Infetti", "Rimossi"),
   pch = 1,
   col = 2:4
 )
