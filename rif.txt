@@ -10,3 +10,15 @@ https://cran.r-project.org/web/packages/shinySIR/vignettes/Vignette.html
 http://sherrytowers.com/2013/01/29/neiu-lecture-vi-fitting-the-parameters-of-an-sir-model-to-influenza-data/
 
 https://towardsdatascience.com/infectious-disease-modelling-fit-your-model-to-coronavirus-data-2568e672dbc7
+
+500/610
+r0 1.71
+param 0.3
+beta 0.076
+gamma 0.044
+
+200/360
+prop 1
+beta 0.078
+gamma 0.028
+r0 2.78

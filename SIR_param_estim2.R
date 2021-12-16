@@ -6,14 +6,18 @@ DatasetCovid <-
       'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
     )
   )
-initDs <- 500
-fineDs <- 610
-Infetti <- DatasetCovid$totale_positivi[initDs:fineDs]
+
+
+initDs <- 200
+fineDs <- 360
+dsCovid <- DatasetCovid[initDs:fineDs,]
+
+Infetti <- dsCovid$totale_positivi
 Rimossi <-
-  DatasetCovid$dimessi_guariti[initDs:fineDs] + DatasetCovid$deceduti[initDs:fineDs] - DatasetCovid$dimessi_guariti[initDs] - DatasetCovid$deceduti[initDs]
+  dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
 
 Pop <- 59000000
-Day <- 0:(length(Infetti) - 1)
+tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop * 0.05
 NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
@@ -36,7 +40,7 @@ closed.sir.model <- function (t, x, params) {
 }
 
 sse.sir <- function(params0) {
-  t <- Day
+  t <- tempo
   beta <- params0[1]
   gamma <- params0[2]
   S0 <- S0
@@ -93,9 +97,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- Pop * 0.05 * 0.3
+  N <- Pop * 0.05 * 1
   betaRes <- 0.076
-  gammaRes <- 0.044
+  gammaRes <- 0.027
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
@@ -104,20 +108,15 @@ RZero <- betaRes/gammaRes
 cat("il valore ottimo di R0 è: ", RZero)
 
 Suscettibili <- N - Rimossi - Infetti
-dati_reali <- cbind(cbind(Suscettibili,Infetti),Rimossi)
+
+dati_reali <- data.frame(
+  suscettibili = Suscettibili,
+  infetti = Infetti,
+  rimossi = Rimossi
+)
 
 I0 <- Infetti[1]
 R0 <- Rimossi[1]
-
-plot(
-  Day,
-  Infetti,
-  type = 'b',
-  xlab = 'Tempo',
-  ylab = 'I(t)',
-  col = 'red'
-)
-
 t <- seq(1, fineDs, by = 1)
 
 mod.pred <- as.data.frame(
@@ -130,7 +129,35 @@ mod.pred <- as.data.frame(
   )
 )
 
-lines(mod.pred$I ~ t)
+ggplot(data = dati_reali,
+       mapping = aes(x = tempo,
+                     y = infetti)) +
+  geom_point(color = "red") +
+  geom_line(data = mod.pred,
+            mapping = aes(x = t,
+                          y = I))
+
+
+# TODO: comprimere i point e i line
+# TODO: creare un oggetto annotation che racchiude tutte le info
+ggplot(data = dati_reali,
+       aes(x = tempo)) +
+  geom_point(size = 2.5,aes(y = suscettibili),
+             color = 2) +
+  geom_point(aes(y = infetti),
+             color = 3) +
+  geom_point(aes(y = rimossi),
+             color = 4) +
+  geom_line(data = mod.pred,
+            mapping = aes(x = t,y = S),
+            color = "red") +
+  geom_line(data = mod.pred,
+            mapping = aes(x = t,y = I),
+            color = "green") +
+  geom_line(data = mod.pred,
+            mapping = aes(x = t,y = R),
+            color = "blue")
+
 
 matplot(
   t,
@@ -146,7 +173,7 @@ matplot(
 )
 
 matplot(
-  Day,
+  tempo,
   dati_reali,
   type = "b",
   pch = 15,
