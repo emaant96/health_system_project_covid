@@ -22,3 +22,8 @@ prop 1
 beta 0.078
 gamma 0.028
 r0 2.78
+
+SEIR
+
+200/360
+prop
