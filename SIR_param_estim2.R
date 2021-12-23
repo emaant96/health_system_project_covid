@@ -8,8 +8,8 @@ DatasetCovid <-
   )
 
 
-initDs <- 200
-fineDs <- 360
+initDs <- 500
+fineDs <- 610
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Infetti <- dsCovid$totale_positivi
@@ -54,7 +54,7 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
   
-  diff <- sum(0.25 * (out$I - Infetti)^2 + 0.25 * (out$R - Rimossi)^2 + 0.50 *(out$I + out$R - (Infetti + Rimossi))^2)
+  diff <- sum(0.85 * (out$I - Infetti)^2 + 0.15 * (out$R - Rimossi)^2)
   print(diff)
   sse <- diff
 }
@@ -98,9 +98,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- Pop * 0.05 * 1
-  betaRes <- 0.076
-  gammaRes <- 0.027
+  N <- NInit * 0.3
+  betaRes <- 0.07
+  gammaRes <- 0.041
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 

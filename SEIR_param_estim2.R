@@ -8,8 +8,8 @@ DatasetCovid <-
   )
 
 
-initDs <- 200
-fineDs <- 360
+initDs <- 495
+fineDs <- 610
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Infetti <- dsCovid$totale_positivi
@@ -104,9 +104,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- Pop * 0.05 * 0.7
-  betaRes <- 0.129
-  gammaRes <- 0.026
+  N <- Pop * 0.05 * 0.2
+  betaRes <- 0.132
+  gammaRes <- 0.046
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 

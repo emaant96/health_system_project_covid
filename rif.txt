@@ -11,9 +11,11 @@ http://sherrytowers.com/2013/01/29/neiu-lecture-vi-fitting-the-parameters-of-an-
 
 https://towardsdatascience.com/infectious-disease-modelling-fit-your-model-to-coronavirus-data-2568e672dbc7
 
+SIR
+
 500/610
 r0 1.71
-param 0.3
+prop 0.3
 beta 0.076
 gamma 0.044
 
@@ -31,3 +33,10 @@ beta 0.129
 gamma 0.026
 delta 1/7
 r0 4.961538
+
+495/610
+prop 0.2
+beta 0.132
+gamma 0.046
+delta 1/7
+r0= 2.87
