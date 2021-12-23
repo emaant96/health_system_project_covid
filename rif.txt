@@ -26,4 +26,8 @@ r0 2.78
 SEIR
 
 200/360
-prop
+prop 0.7
+beta 0.129
+gamma 0.026
+delta 1/7
+r0 4.961538

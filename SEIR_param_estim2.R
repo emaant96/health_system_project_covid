@@ -20,11 +20,11 @@ Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop * 0.05
 NrowLossArray <- 10
-lossArray <- matrix(0, NrowLossArray, 5)
+lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-#exec_optim <- FALSE
-exec_optim <- TRUE
+exec_optim <- FALSE
+#exec_optim <- TRUE
 
 closed.seir.model <- function (t, x, params) {
   S <- x[1]
@@ -34,7 +34,7 @@ closed.seir.model <- function (t, x, params) {
   
   beta <- params[1]
   gamma <- params[2]
-  delta <- params[3]
+  delta <- 1/7
   
   dS <- - (beta / N * S * I)
   dE <- (beta / N * S * I) - (delta * E)
@@ -47,7 +47,6 @@ sse.seir <- function(params0) {
   t <- tempo
   beta <- params0[1]
   gamma <- params0[2]
-  delta <- params0[3]
   S0 <- S0
   E0 <- E0
   I0 <- I0
@@ -56,11 +55,11 @@ sse.seir <- function(params0) {
     y = c(S = S0, E = E0, I = I0, R = R0),
     times = t,
     closed.seir.model,
-    parms = c(beta, gamma, delta),
+    parms = c(beta, gamma),
     hmax = 1 / 120
   ))
   
-  diff <- sum(0.5 * (out$I - Infetti)^2 + 0.25 * (out$R - Rimossi)^2 + 0.25 * (out$I + out$R - (Infetti + Rimossi))^2)
+  diff <- sum(0.85 * (out$I - Infetti)^2 + 0.15 * (out$R - Rimossi)^2)
   print(diff)
   sse <- diff
 }
@@ -77,39 +76,37 @@ if (exec_optim) {
     I0 <- Infetti[1] * 0.3
     R0 <- Rimossi[1]
     
-    params0 <- c(0.076, 0.027, 1/7)
+    params0 <- c(0.076, 0.027)
     
     fit <- optim(
       params0,
       sse.seir,
       method = "L-BFGS-B",
-      lower = c(1/1000, 1 / 42, 1/30),
-      upper = c(1/5, 1 / 11, 1/5),
+      lower = c(0, 0),
+      upper = c(1, 1),
       hessian = TRUE
     )
     
-    lossArray[counter, ] <- c(fit$par[1], fit$par[2], fit$par[3], fit$value, prop)
+    lossArray[counter, ] <- c(fit$par[1], fit$par[2], fit$value, prop)
     counter <- counter + 1
     cat("counter: ", counter)
   }
 
   idxRes <- match(
-    min(lossArray[,4]),
-    lossArray[,4]
+    min(lossArray[,3]),
+    lossArray[,3]
   )
 
   betaRes <- lossArray[idxRes,1]
   gammaRes <- lossArray[idxRes,2]
-  deltaRes <- lossArray[idxRes,3]
-  N <- NInit * lossArray[idxRes,5]
+  N <- NInit * lossArray[idxRes,4]
   S0 <- N - Infetti[1] - Rimossi[1]
 
 }else{
   # SIR Model
   N <- Pop * 0.05 * 0.7
-  betaRes <- 0.112
-  gammaRes <- 0.03
-  deltaRes <- 0.179
+  betaRes <- 0.129
+  gammaRes <- 0.026
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
@@ -135,14 +132,17 @@ mod.pred <- as.data.frame(
     c(S = S0, E = E0, I = I0, R = R0),
     times = t,
     closed.seir.model,
-    c(betaRes, gammaRes, deltaRes),
+    c(betaRes, gammaRes),
     hmax = 1 / 120
   )
 )
 
 ggplot(data = dati_reali, mapping = aes(x = tempo, y = infetti)) +
   geom_point(color = "red") +
-  geom_line(data = mod.pred, mapping = aes(x = t, y = I))
+  geom_line(data = mod.pred, mapping = aes(x = t, y = I)) +
+  labs(title= "Confronto tra Infetti reali e Infetti stimati",
+     subtitle=  "COVID-19 Infetti, Italia (2020-09-10 - 2021-09-05)",
+     x="Tempo", y="Infetti")
 
 colors <- c("Suscettibili" = 2,
             "Infetti" = 3,
@@ -161,41 +161,6 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = I, color = "Infetti SEIR")) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SEIR")) +
   scale_color_manual("Dati",values = colors) +
-  labs(title= "Confronto tra dati reali e modello SEIR stimato", x="Tempo", y="Popolazione")
-
-
-
-
-
-
-if(FALSE){
-matplot(
-  t,
-  mod.pred[, 2:4],
-  type = "l",
-  xlab = "Tempo",
-  ylab = "Popolazione",
-  main = "COVID-19 SEIR, Italia (2020-09-10 - 2021-09-05)",
-  lwd = 1,
-  lty = 1,
-  bty = "l",
-  col = 2:4
-)
-
-matplot(
-  tempo,
-  dati_reali,
-  type = "b",
-  pch = 15,
-  add = TRUE,
-  col = 2:4
-)
-
-legend(
-  x = "right",
-  y = 0.92,
-  c("Suscettibili", "Infetti", "Rimossi"),
-  pch = 1,
-  col = 2:4
-)
-}
+  labs(title= "Confronto tra dati reali e modello SEIR stimato",
+       subtitle=  "COVID-19 SEIR, Italia (2020-09-10 - 2021-09-05)",
+       x="Tempo", y="Popolazione")

@@ -141,8 +141,6 @@ colors <- c("Suscettibili" = 2,
             "Infetti SIR" = "green",
             "Rimossi SIR" = "blue")
 
-# TODO: comprimere i point e i line
-# TODO: creare un oggetto annotation che racchiude tutte le info
 ggplot(data = dati_reali, aes(x = tempo)) +
   geom_point(size = 0.8, aes(y = suscettibili, color = "Suscettibili")) +
   geom_point(size = 0.8, aes(y = infetti, color = "Infetti")) +
