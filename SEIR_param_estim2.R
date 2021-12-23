@@ -1,4 +1,6 @@
 require(deSolve)
+source("ggplot_theme_Publication.R")
+options(scipen=999)
 
 DatasetCovid <-
   read.csv(
@@ -103,7 +105,7 @@ if (exec_optim) {
   S0 <- N - Infetti[1] - Rimossi[1]
 
 }else{
-  # SIR Model
+  # SEIR Model
   N <- Pop * 0.05 * 0.2
   betaRes <- 0.132
   gammaRes <- 0.046
@@ -137,18 +139,25 @@ mod.pred <- as.data.frame(
   )
 )
 
+colors <- c("Infetti" = 3,
+            "Infetti SEIR" = "green")
+
 ggplot(data = dati_reali, mapping = aes(x = tempo, y = infetti)) +
-  geom_point(color = "red") +
-  geom_line(data = mod.pred, mapping = aes(x = t, y = I)) +
+  geom_point(aes(color = "Infetti")) +
+  geom_line(data = mod.pred, mapping = aes(x = t, y = I, color = "Infetti SEIR")) +
+  scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra Infetti reali e Infetti stimati",
-     subtitle=  "COVID-19 Infetti, Italia (2020-09-10 - 2021-09-05)",
-     x="Tempo", y="Infetti")
+     subtitle=  "COVID-19 Infetti, Italia (2020/09/10 - 2021/09/05)",
+     x="Tempo", y="Infetti") +
+  # scale_colour_Publication() +
+  theme_Publication()
+
 
 colors <- c("Suscettibili" = 2,
             "Infetti" = 3,
             "Rimossi" = 4,
             "Suscettibili SEIR" = "red",
-            "Esposti SEIR" = "yellow",
+            "Esposti SEIR" = "orange2",
             "Infetti SEIR" = "green",
             "Rimossi SEIR" = "blue")
 
@@ -162,5 +171,7 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SEIR")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
-       subtitle=  "COVID-19 SEIR, Italia (2020-09-10 - 2021-09-05)",
-       x="Tempo", y="Popolazione")
+       subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
+       x="Tempo", y="Popolazione") +
+  # scale_colour_Publication() +
+  theme_Publication()

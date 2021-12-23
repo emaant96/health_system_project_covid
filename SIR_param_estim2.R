@@ -1,4 +1,6 @@
 require(deSolve)
+source("ggplot_theme_Publication.R")
+options(scipen=999)
 
 DatasetCovid <-
   read.csv(
@@ -53,7 +55,7 @@ sse.sir <- function(params0) {
     parms = c(beta, gamma),
     hmax = 1 / 120
   ))
-  
+
   diff <- sum(0.85 * (out$I - Infetti)^2 + 0.15 * (out$R - Rimossi)^2)
   print(diff)
   sse <- diff
@@ -130,9 +132,17 @@ mod.pred <- as.data.frame(
   )
 )
 
+colors <- c("Infetti" = 3,
+            "Infetti SIR" = "green")
+
 ggplot(data = dati_reali, mapping = aes(x = tempo, y = infetti)) +
-  geom_point(color = "red") +
-  geom_line(data = mod.pred, mapping = aes(x = t, y = I))
+  geom_point(aes(color = "Infetti")) +
+  geom_line(data = mod.pred, mapping = aes(x = t, y = I, color = "Infetti SIR")) +
+  scale_color_manual("Dati",values = colors) +
+  labs(title= "Confronto tra Infetti reali e Infetti stimati",
+       subtitle=  "COVID-19 Infetti, Italia (2020/09/10 - 2021/09/05)",
+       x="Tempo", y="Infetti") +
+  theme_Publication()
 
 colors <- c("Suscettibili" = 2,
             "Infetti" = 3,
@@ -149,41 +159,7 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = I, color = "Infetti SIR")) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SIR")) +
   scale_color_manual("Dati",values = colors) +
-  labs(title= "Confronto tra dati reali e modello SIR stimato", x="Tempo", y="Popolazione")
-
-
-
-
-
-
-if(FALSE){
-matplot(
-  t,
-  mod.pred[, 2:4],
-  type = "l",
-  xlab = "Tempo",
-  ylab = "Popolazione",
-  main = "COVID-19 SIR, Italia (2020-09-10 - 2021-09-05)",
-  lwd = 1,
-  lty = 1,
-  bty = "l",
-  col = 2:4
-)
-
-matplot(
-  tempo,
-  dati_reali,
-  type = "b",
-  pch = 15,
-  add = TRUE,
-  col = 2:4
-)
-
-legend(
-  x = "right",
-  y = 0.92,
-  c("Suscettibili", "Infetti", "Rimossi"),
-  pch = 1,
-  col = 2:4
-)
-}
+  labs(title= "Confronto tra dati reali e modello SEIR stimato",
+       subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
+       x="Tempo", y="Popolazione") +
+  theme_Publication()
