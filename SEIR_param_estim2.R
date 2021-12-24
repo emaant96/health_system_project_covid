@@ -127,7 +127,9 @@ dati_reali <- data.frame(
 E0 <- Infetti[1] * 0.7
 I0 <- Infetti[1] * 0.3
 R0 <- Rimossi[1]
-t <- seq(1, fineDs, by = 1)
+
+giorni_predizione <- 100
+t <- seq(1, fineDs-initDs + giorni_predizione, by = 1)
 
 mod.pred <- as.data.frame(
   ode(
@@ -173,5 +175,5 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
        subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
        x="Tempo", y="Popolazione") +
-  # scale_colour_Publication() +
+  # scale_colour_Publication()
   theme_Publication()
