@@ -14,13 +14,18 @@ initDs <- 495
 fineDs <- 610
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
-Infetti <- dsCovid$totale_positivi
-Rimossi <-
-  dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
+dsCovid$dimessi_guariti_giornalieri <- ave(dsCovid$dimessi_guariti, FUN=function(x) c(0, diff(x)))
+dsCovid$dimessi_guariti_giornalieri <- cumsum(dsCovid$dimessi_guariti_giornalieri)
 
-Pop <- 59000000
+dsCovid$deceduti_giornalieri <- ave(dsCovid$deceduti, FUN=function(x) c(0, diff(x)))
+dsCovid$deceduti_giornalieri <- cumsum(dsCovid$deceduti_giornalieri)
+
+Infetti <- dsCovid$totale_positivi
+Rimossi <- dsCovid$dimessi_guariti_giornalieri + dsCovid$deceduti_giornalieri
+
+Pop <- (max(Infetti) + max(Rimossi)) * 10
 tempo <- 0:(length(Infetti) - 1)
-NInit <- Pop * 0.05
+NInit <- Pop
 NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
@@ -106,9 +111,9 @@ if (exec_optim) {
 
 }else{
   # SEIR Model
-  N <- Pop * 0.05 * 0.2
-  betaRes <- 0.132
-  gammaRes <- 0.046
+  N <- NInit * 0.1
+  betaRes <- 0.115948
+  gammaRes <- 0.0425646
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 

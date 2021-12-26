@@ -14,13 +14,18 @@ initDs <- 500
 fineDs <- 610
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
-Infetti <- dsCovid$totale_positivi
-Rimossi <-
-  dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
+dsCovid$dimessi_guariti_giornalieri <- ave(dsCovid$dimessi_guariti, FUN=function(x) c(0, diff(x)))
+dsCovid$dimessi_guariti_giornalieri <- cumsum(dsCovid$dimessi_guariti_giornalieri)
 
-Pop <- 59000000
+dsCovid$deceduti_giornalieri <- ave(dsCovid$deceduti, FUN=function(x) c(0, diff(x)))
+dsCovid$deceduti_giornalieri <- cumsum(dsCovid$deceduti_giornalieri)
+
+Infetti <- dsCovid$totale_positivi
+Rimossi <- dsCovid$dimessi_guariti_giornalieri + dsCovid$deceduti_giornalieri
+
+Pop <- (max(Infetti) + max(Rimossi)) * 10
 tempo <- 0:(length(Infetti) - 1)
-NInit <- Pop * 0.05
+NInit <- Pop
 NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
@@ -100,9 +105,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- NInit * 0.3
-  betaRes <- 0.07
-  gammaRes <- 0.041
+  N <- NInit * 0.1
+  betaRes <- 0.0844250
+  gammaRes <- 0.0373120
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
@@ -120,7 +125,10 @@ dati_reali <- data.frame(
 
 I0 <- Infetti[1]
 R0 <- Rimossi[1]
-t <- seq(1, fineDs, by = 1)
+
+
+giorni_predizione <- 100
+t <- seq(1, fineDs-initDs + giorni_predizione, by = 1)
 
 mod.pred <- as.data.frame(
   ode(
@@ -159,7 +167,7 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = I, color = "Infetti SIR")) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SIR")) +
   scale_color_manual("Dati",values = colors) +
-  labs(title= "Confronto tra dati reali e modello SEIR stimato",
-       subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
+  labs(title= "Confronto tra dati reali e modello SIR stimato",
+       subtitle=  "COVID-19 SIR, Italia (2020/09/10 - 2021/09/05)",
        x="Tempo", y="Popolazione") +
   theme_Publication()
