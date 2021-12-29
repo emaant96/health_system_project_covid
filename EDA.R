@@ -29,4 +29,5 @@ ggplot(data = dati_reali, aes(x = tempo)) +
        subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
        x="Tempo", y="Popolazione") +
   theme_Publication() +
-  scale_x_date(breaks = date_breaks("months"))
+  scale_x_date(breaks = date_breaks("months"))+
+  theme(axis.text.x = element_text(vjust=0.5,angle=45))
