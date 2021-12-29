@@ -30,17 +30,4 @@ theme_Publication <- function(base_size=14, base_family="sans") {
             strip.background=element_rect(color="#f0f0f0",fill="#f0f0f0"),
             strip.text = element_text(face="bold"),
   ))
-
-}
-
-scale_fill_Publication <- function(...){
-  library(scales)
-  discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
-
-}
-
-scale_color_Publication <- function(...){
-  library(scales)
-  discrete_scale("color","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
-
 }
