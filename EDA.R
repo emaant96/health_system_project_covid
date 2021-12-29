@@ -9,16 +9,17 @@ DatasetCovid <-
     )
   )
 
-DatasetCovid <- DatasetCovid[204:312,]
+DatasetCovid <- DatasetCovid[0:650,]
 Infetti <- DatasetCovid$totale_positivi
 Rimossi <- DatasetCovid$dimessi_guariti + DatasetCovid$deceduti
+date <- DatasetCovid$data
 
 dati_reali <- data.frame(
   infetti = Infetti,
   rimossi = Rimossi
 )
 
-tempo <- 0:(length(Infetti) - 1)
+tempo <- as.Date(date)
 colors <- c("Infetti" = 3)
 
 ggplot(data = dati_reali, aes(x = tempo)) +
@@ -27,5 +28,5 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
        subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
        x="Tempo", y="Popolazione") +
-  theme_Publication()
-
+  theme_Publication() +
+  scale_x_date(breaks = date_breaks("months"))

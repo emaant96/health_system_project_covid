@@ -15,7 +15,7 @@ theme_Publication <- function(base_size=14, base_family="sans") {
             axis.title = element_text(face = "bold",size = rel(1)),
             axis.title.y = element_text(angle=90,vjust =2),
             axis.title.x = element_text(vjust = -0.2),
-            axis.text = element_text(),
+            axis.text.x = element_text(vjust=0.5,angle=45),
             axis.line.x = element_line(color="black"),
             axis.line.y = element_line(color="black"),
             axis.ticks = element_line(),
@@ -29,7 +29,8 @@ theme_Publication <- function(base_size=14, base_family="sans") {
             legend.title = element_text(face="italic"),
             plot.margin=unit(c(10,5,5,5),"mm"),
             strip.background=element_rect(color="#f0f0f0",fill="#f0f0f0"),
-            strip.text = element_text(face="bold")
+            strip.text = element_text(face="bold"),
+
   ))
 
 }
