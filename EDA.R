@@ -27,7 +27,7 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
        subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
-       x="Tempo", y="Popolazione") +
+       x="Data", y="Infetti") +
   theme_Publication() +
   scale_x_date(breaks = date_breaks("months"))+
-  theme(axis.text.x = element_text(vjust=0.5,angle=45))
+  theme(axis.text.x = element_text(hjust= 1,angle=45))
