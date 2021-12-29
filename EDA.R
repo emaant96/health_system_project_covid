@@ -17,12 +17,11 @@ dati_reali <- data.frame(
   rimossi = Rimossi
 )
 
-ggplot(data = dati_reali, aes(x = DatasetCovid$data, group = 1)) +
-  geom_line(mapping = aes(y = infetti, color = "green")) +
-  geom_line(mapping = aes(y = rimossi, color = "red")) +
-  scale_x_discrete(breaks = unique(DatasetCovid$data)[seq(1,length(DatasetCovid$data),120)])
-  labs(title = "COVID-19, Italia",
-       # subtitle = "",
-       x = "Tempo", y = "Popolazione") + theme_Publication() #  + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5))
-
+ggplot(data = dati_reali, aes(x = tempo)) +
+  geom_point(size = 0.8, aes(y = infetti, color = "Infetti"))+
+  scale_color_manual("Dati",values = colors) +
+  labs(title= "Confronto tra dati reali e modello SEIR stimato",
+       subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
+       x="Tempo", y="Popolazione") +
+  theme_Publication()
 

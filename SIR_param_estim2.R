@@ -10,27 +10,23 @@ DatasetCovid <-
   )
 
 
-initDs <- 500
-fineDs <- 610
+initDs <- 200
+fineDs <- 360
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
-dsCovid$dimessi_guariti_giornalieri <- ave(dsCovid$dimessi_guariti, FUN=function(x) c(0, diff(x)))
-dsCovid$dimessi_guariti_giornalieri <- cumsum(dsCovid$dimessi_guariti_giornalieri)
-
-dsCovid$deceduti_giornalieri <- ave(dsCovid$deceduti, FUN=function(x) c(0, diff(x)))
-dsCovid$deceduti_giornalieri <- cumsum(dsCovid$deceduti_giornalieri)
+Rimossi <-
+  dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
 
 Infetti <- dsCovid$totale_positivi
-Rimossi <- dsCovid$dimessi_guariti_giornalieri + dsCovid$deceduti_giornalieri
 
-Pop <- (max(Infetti) + max(Rimossi)) * 10
+Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
 NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- FALSE
+exec_optim <- TRUE
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
@@ -67,8 +63,8 @@ sse.sir <- function(params0) {
 }
 
 if (exec_optim) {
-  init <- 0.1
-  passo <- 0.1
+  init <- 0.005
+  passo <- 0.005
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
@@ -83,8 +79,8 @@ if (exec_optim) {
       params0,
       sse.sir,
       method = "L-BFGS-B",
-      lower = c(0.001, 1 / 42),
-      upper = c(1, 1 / 11),
+      lower = c(0, 0),
+      upper = c(1, 1),
       hessian = TRUE
     )
     
@@ -105,9 +101,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- NInit * 0.1
-  betaRes <- 0.0844250
-  gammaRes <- 0.0373120
+  N <- NInit * 0.01
+  betaRes <- 0.0843
+  gammaRes <- 0.0374
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 

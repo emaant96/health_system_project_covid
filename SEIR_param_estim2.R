@@ -10,20 +10,16 @@ DatasetCovid <-
   )
 
 
-initDs <- 495
-fineDs <- 610
+initDs <- 0
+fineDs <- 674
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
-dsCovid$dimessi_guariti_giornalieri <- ave(dsCovid$dimessi_guariti, FUN=function(x) c(0, diff(x)))
-dsCovid$dimessi_guariti_giornalieri <- cumsum(dsCovid$dimessi_guariti_giornalieri)
-
-dsCovid$deceduti_giornalieri <- ave(dsCovid$deceduti, FUN=function(x) c(0, diff(x)))
-dsCovid$deceduti_giornalieri <- cumsum(dsCovid$deceduti_giornalieri)
+Rimossi <-
+  dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
 
 Infetti <- dsCovid$totale_positivi
-Rimossi <- dsCovid$dimessi_guariti_giornalieri + dsCovid$deceduti_giornalieri
 
-Pop <- (max(Infetti) + max(Rimossi)) * 10
+Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
 NrowLossArray <- 10
@@ -72,8 +68,8 @@ sse.seir <- function(params0) {
 }
 
 if (exec_optim) {
-  init <- 0.1
-  passo <- 0.1
+  init <- 0.005
+  passo <- 0.005
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
@@ -111,9 +107,9 @@ if (exec_optim) {
 
 }else{
   # SEIR Model
-  N <- NInit * 0.1
-  betaRes <- 0.115948
-  gammaRes <- 0.0425646
+  N <- NInit * 0.01
+  betaRes <- 0.133
+  gammaRes <- 0.046
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
@@ -180,5 +176,4 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
        subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
        x="Tempo", y="Popolazione") +
-  # scale_colour_Publication()
   theme_Publication()
