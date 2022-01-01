@@ -10,8 +10,8 @@ DatasetCovid <-
   )
 
 
-initDs <- 200
-fineDs <- 360
+initDs <- 510
+fineDs <- 600
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Rimossi <-
@@ -26,7 +26,7 @@ NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- TRUE
+exec_optim <- FALSE
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
@@ -57,14 +57,14 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
 
-  diff <- sum(0.85 * (out$I - Infetti)^2 + 0.15 * (out$R - Rimossi)^2)
+  diff <- sum(0.9 * (out$I - Infetti)^2 + 0.1 * (out$R - Rimossi)^2)
   print(diff)
   sse <- diff
 }
 
 if (exec_optim) {
-  init <- 0.005
-  passo <- 0.005
+  init <- 0.042
+  passo <- 0.0001
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
@@ -101,9 +101,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- NInit * 0.01
-  betaRes <- 0.0843
-  gammaRes <- 0.0374
+  N <- NInit * 0.0095
+  betaRes <- 0.09583444651129029
+  gammaRes <- 0.040394027169794205
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
