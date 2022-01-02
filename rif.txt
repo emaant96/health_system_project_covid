@@ -35,12 +35,12 @@ SEIR
 230/300
 beta 0.228
 gamma 0.026
-delta 1/7
+delta 1/14
 r0 8.77
 prop 0.03
 
 510/605
-beta 0.108
+beta 0.110
 gamma 0.040
 delta 1/7
 r0 2.7

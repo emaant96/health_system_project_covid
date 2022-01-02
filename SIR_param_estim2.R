@@ -1,15 +1,10 @@
 require(deSolve)
-library("ggplot2")
+library(ggplot2)
 source("ggplot_theme_Publication.R")
 options(scipen=999)
 
 DatasetCovid <-
-  read.csv(
-    url(
-      'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
-    )
-  )
-
+  read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
 
 initDs <- 510
 fineDs <- 605

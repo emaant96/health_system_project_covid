@@ -1,17 +1,14 @@
 require(deSolve)
+require(ggplot2)
 source("ggplot_theme_Publication.R")
 options(scipen=999)
 
 DatasetCovid <-
-  read.csv(
-    url(
-      'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
-    )
-  )
+  read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
 
 
-initDs <- 510
-fineDs <- 605
+initDs <- 230
+fineDs <- 300
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Rimossi <-
@@ -28,8 +25,8 @@ lossArray <- matrix(0, NrowLossArray, 4)
 delta <- 1/14
 
 counter <- 1
-#exec_optim <- FALSE
-exec_optim <- TRUE
+exec_optim <- FALSE
+#exec_optim <- TRUE
 
 closed.seir.model <- function (t, x, params) {
   S <- x[1]
@@ -109,9 +106,9 @@ if (exec_optim) {
 
 }else{
   # SEIR Model
-  N <- NInit * 0.01
-  betaRes <- 0.108
-  gammaRes <- 0.04
+  N <- NInit * 0.03
+  betaRes <- 0.228
+  gammaRes <- 0.026
   S0 <- N - Infetti[1] - Infetti[1/delta] - Rimossi[1]
 }
 
@@ -154,7 +151,6 @@ ggplot(data = dati_reali, mapping = aes(x = tempo, y = infetti)) +
   labs(title= "Confronto tra Infetti reali e Infetti stimati",
      subtitle=  "COVID-19 Infetti, Italia (2020/10/10 - 2020/12/19)",
      x="Tempo", y="Infetti") +
-  # scale_colour_Publication() +
   theme_Publication()
 
 

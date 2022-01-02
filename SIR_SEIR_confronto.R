@@ -10,8 +10,8 @@ DatasetCovid <-
   )
 
 
-initDs <- 500
-fineDs <- 610
+initDs <- 230
+fineDs <- 300
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Infetti <- dsCovid$totale_positivi
@@ -49,7 +49,7 @@ closed.seir.model <- function (t, x, params) {
 
   beta <- params[1]
   gamma <- params[2]
-  delta <- 1/7
+  delta <- 1/14
 
   dS <- - (beta / N * S * I)
   dE <- (beta / N * S * I) - (delta * E)
@@ -59,15 +59,16 @@ closed.seir.model <- function (t, x, params) {
 }
 
 # SIR Model
-N <- NInit * 0.1
-betaRes <- 0.0844250
-gammaRes <- 0.0373120
+N <- NInit * 0.03
+betaRes <- 0.116
+gammaRes <- 0.026
 S0 <- N - Infetti[1] - Rimossi[1]
 
 # SEIR Model
-N_SEIR <- NInit * 0.1
-betaRes_SEIR <- 0.115948
-gammaRes_SEIR <- 0.0425646
+N_SEIR <- NInit * 0.03
+betaRes_SEIR <- 0.228
+gammaRes_SEIR <- 0.026
+S0_SEIR <- N - Infetti[1] - Infetti[14] - Rimossi[1]
 
 Suscettibili <- N - Rimossi - Infetti
 
@@ -80,8 +81,9 @@ dati_reali <- data.frame(
 I0 <- Infetti[1]
 R0 <- Rimossi[1]
 
-E0_SEIR <- Infetti[1] * 0.7
-I0_SEIR <- Infetti[1] * 0.3
+
+E0_SEIR <- Infetti[14]
+I0_SEIR <- Infetti[1]
 R0_SEIR <- Rimossi[1]
 
 
@@ -100,7 +102,7 @@ mod.pred <- as.data.frame(
 
 mod.pred_SEIR <- as.data.frame(
   ode(
-    c(S = S0, E = E0_SEIR, I = I0_SEIR, R = R0_SEIR),
+    c(S = S0_SEIR, E = E0_SEIR, I = I0_SEIR, R = R0_SEIR),
     times = t,
     closed.seir.model,
     c(betaRes_SEIR, gammaRes_SEIR),
@@ -118,13 +120,14 @@ colors <- c("Suscettibili SIR" = "red",
 )
 
 ggplot(data = dati_reali, aes(x = tempo)) +
-  geom_line(data = mod.pred, mapping = aes(x = t, y = S, color = "Suscettibili SIR")) +
+  geom_point(size = 0.8, aes(y = infetti, color = "Infetti")) +
+  #geom_line(data = mod.pred, mapping = aes(x = t, y = S, color = "Suscettibili SIR")) +
   geom_line(data = mod.pred, mapping = aes(x = t, y = I, color = "Infetti SIR")) +
-  geom_line(data = mod.pred, mapping = aes(x = t, y = R, color = "Rimossi SIR")) +
-  geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = S, color = "Suscettibili SEIR")) +
-  geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = E, color = "Esposti SEIR")) +
+  #geom_line(data = mod.pred, mapping = aes(x = t, y = R, color = "Rimossi SIR")) +
+  #geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = S, color = "Suscettibili SEIR")) +
+  #geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = E, color = "Esposti SEIR")) +
   geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = I, color = "Infetti SEIR")) +
-  geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = R, color = "Rimossi SEIR")) +
+  #geom_line(data = mod.pred_SEIR, mapping = aes(x = t,y = R, color = "Rimossi SEIR")) +
   scale_color_manual("Dati", values = colors) +
   labs(title = "Confronto tra modello SIR e modello SEIR",
        subtitle = "COVID-19 SIR, Italia (2020/09/10 - 2021/09/05)",
