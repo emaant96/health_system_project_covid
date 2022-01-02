@@ -1,4 +1,5 @@
 require(deSolve)
+library("ggplot2")
 source("ggplot_theme_Publication.R")
 options(scipen=999)
 
@@ -10,8 +11,8 @@ DatasetCovid <-
   )
 
 
-initDs <- 200
-fineDs <- 360
+initDs <- 510
+fineDs <- 605
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Rimossi <-
@@ -26,7 +27,7 @@ NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- TRUE
+exec_optim <- FALSE
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
@@ -57,7 +58,7 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
 
-  diff <- sum(0.85 * (out$I - Infetti)^2 + 0.15 * (out$R - Rimossi)^2)
+  diff <- sum(0.5 * (out$I - Infetti)^2 + 0.5 * (out$R - Rimossi)^2)
   print(diff)
   sse <- diff
 }
@@ -102,8 +103,8 @@ if (exec_optim) {
 }else{
   # SIR Model
   N <- NInit * 0.01
-  betaRes <- 0.0843
-  gammaRes <- 0.0374
+  betaRes <- 0.092
+  gammaRes <- 0.041
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 
@@ -144,7 +145,7 @@ ggplot(data = dati_reali, mapping = aes(x = tempo, y = infetti)) +
   geom_line(data = mod.pred, mapping = aes(x = t, y = I, color = "Infetti SIR")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra Infetti reali e Infetti stimati",
-       subtitle=  "COVID-19 Infetti, Italia (2020/09/10 - 2021/09/05)",
+       subtitle=  "COVID-19 Infetti, Italia (2020/10/10 - 2021/12/19)",
        x="Tempo", y="Infetti") +
   theme_Publication()
 
@@ -164,6 +165,6 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SIR")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra dati reali e modello SIR stimato",
-       subtitle=  "COVID-19 SIR, Italia (2020/09/10 - 2021/09/05)",
+       subtitle=  "COVID-19 SIR, Italia (2020/10/10 - 2021/12/19)",
        x="Tempo", y="Popolazione") +
   theme_Publication()

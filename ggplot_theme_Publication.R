@@ -1,5 +1,6 @@
 install.packages("gridExtra")
 library("gridExtra")
+library("scales")
 
 theme_Publication <- function(base_size=14, base_family="sans") {
   library(grid)
@@ -21,10 +22,10 @@ theme_Publication <- function(base_size=14, base_family="sans") {
             panel.grid.major = element_line(color="#f0f0f0"),
             panel.grid.minor = element_blank(),
             legend.key = element_rect(color = NA),
-            legend.position = c(0.9, 0.5),
+            legend.position = c(0.8, 0.5),
             legend.direction = "vertical",
             legend.key.size= unit(1, "cm"),
-            legend.margin = unit(0, "cm"),
+            legend.spacing = unit(0, "cm"),
             legend.title = element_text(face="italic", size = rel(1.2)),
             legend.text = element_text(size = rel(1.2)),
             plot.margin=unit(c(10,5,5,5),"mm"),

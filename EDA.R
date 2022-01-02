@@ -25,8 +25,8 @@ colors <- c("Infetti" = 3)
 ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(size = 0.8, aes(y = infetti, color = "Infetti")) +
   scale_color_manual("Dati",values = colors) +
-  labs(title= "Confronto tra dati reali e modello SEIR stimato",
-       subtitle=  "COVID-19 SEIR, Italia (2020/09/10 - 2021/09/05)",
+  labs(title= "Andamento casi COVID-19",
+       subtitle=  "Italia (2020 - 2021)",
        x="Data", y="Infetti") +
   theme_Publication() +
   scale_x_date(breaks = date_breaks("months"))+
