@@ -11,32 +11,37 @@ http://sherrytowers.com/2013/01/29/neiu-lecture-vi-fitting-the-parameters-of-an-
 
 https://towardsdatascience.com/infectious-disease-modelling-fit-your-model-to-coronavirus-data-2568e672dbc7
 
+230: 2020-10-10
+300: 2020-12-19
+510: 2021-07-17
+605: 2021-10-20
+
 SIR
 
-510/605
-r0 2.24
-prop 0.01
-beta 0.092
-gamma 0.041
-
 230/300
-prop 0.03
 beta 0.116
 gamma 0.026
 r0 4.46
+prop 0.03
+
+510/605
+beta 0.092
+gamma 0.041
+r0 2.24
+prop 0.01
 
 SEIR
 
 230/300
-prop 0.025
-beta 0.263
-gamma 0.025
+beta 0.228
+gamma 0.026
 delta 1/7
-r0 10.55
+r0 8.77
+prop 0.03
 
-495/610
-prop 0.01
-beta 0.104
-gamma 0.038
+510/605
+beta 0.108
+gamma 0.040
 delta 1/7
-r0= 2.70
+r0 2.7
+prop 0.01
