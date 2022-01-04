@@ -3,11 +3,7 @@ source("ggplot_theme_Publication.R")
 options(scipen = 999)
 
 DatasetCovid <-
-  read.csv(
-    url(
-      'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
-    )
-  )
+  read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
 
 DatasetCovid <- DatasetCovid[0:650,]
 Infetti <- DatasetCovid$totale_positivi

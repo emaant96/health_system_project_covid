@@ -22,7 +22,7 @@ NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
-exec_optim <- FALSE
+exec_optim <- FALSE #TRUE per il fitting, FALSE per i dati già calcolati
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
