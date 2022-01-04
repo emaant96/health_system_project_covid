@@ -5,7 +5,7 @@ options(scipen = 999)
 DatasetCovid <-
   read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
 
-DatasetCovid <- DatasetCovid[0:650,]
+DatasetCovid <- DatasetCovid[1:650,]
 Infetti <- DatasetCovid$totale_positivi
 Rimossi <- DatasetCovid$dimessi_guariti + DatasetCovid$deceduti
 date <- DatasetCovid$data
