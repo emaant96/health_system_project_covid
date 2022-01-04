@@ -120,7 +120,7 @@ R0 <- Rimossi[1]
 
 
 giorni_predizione <- 100
-t <- seq(1, fineDs-initDs + giorni_predizione, by = 1)
+t <- seq(0, fineDs-initDs + giorni_predizione - 1, by = 1)
 
 mod.pred <- as.data.frame(
   ode(
@@ -160,6 +160,6 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SIR")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra dati reali e modello SIR stimato",
-       subtitle=  "COVID-19 SIR, Italia (2020/10/10 - 2021/12/19)",
+       subtitle=  "COVID-19 SIR, Italia (2021/07/17 - 2021/10/20)",
        x="Tempo", y="Popolazione") +
   theme_Publication()

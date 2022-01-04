@@ -7,8 +7,8 @@ DatasetCovid <-
   read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
 
 
-initDs <- 230
-fineDs <- 300
+initDs <- 510
+fineDs <- 605
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Rimossi <-
@@ -25,8 +25,8 @@ lossArray <- matrix(0, NrowLossArray, 4)
 delta <- 1/14
 
 counter <- 1
-exec_optim <- FALSE
-#exec_optim <- TRUE
+#exec_optim <- FALSE
+exec_optim <- TRUE
 
 closed.seir.model <- function (t, x, params) {
   S <- x[1]
@@ -129,7 +129,7 @@ I0 <- Infetti[1]
 R0 <- Rimossi[1]
 
 giorni_predizione <- 100
-t <- seq(1, fineDs-initDs + giorni_predizione, by = 1)
+t <- seq(0, fineDs-initDs + giorni_predizione-1, by = 1)
 
 mod.pred <- as.data.frame(
   ode(
@@ -172,6 +172,6 @@ ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(data = mod.pred, mapping = aes(x = t,y = R, color = "Rimossi SEIR")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Confronto tra dati reali e modello SEIR stimato",
-       subtitle=  "COVID-19 SEIR, Italia (2021/07/17 - 2021/10/20)",
+       subtitle=  "COVID-19 SEIR, Italia (2020/10/10 - 2020/12/19)",
        x="Tempo", y="Popolazione") +
   theme_Publication()
