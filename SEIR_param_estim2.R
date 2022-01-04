@@ -25,8 +25,8 @@ lossArray <- matrix(0, NrowLossArray, 4)
 delta <- 1/14
 
 counter <- 1
-#exec_optim <- FALSE
-exec_optim <- TRUE
+exec_optim <- FALSE
+#exec_optim <- TRUE
 
 closed.seir.model <- function (t, x, params) {
   S <- x[1]
