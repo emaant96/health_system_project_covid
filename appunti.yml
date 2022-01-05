@@ -1,0 +1,363 @@
+  
+1) Processi descrittivi:
+    Modellazione oggetto da misurare
+    Definizione della mappatura
+    Definizione della scala di misura:
+      {Nominale, Ordinale, ad intervallo, a rapporto, assoluta}
+
+
+    Processi misurativi:
+      Identificazione: proprietà migliore da misurare dell'oggetto 
+      Modellazione: modello matematico usato (interazioni tra misurando e oggetto)
+      Decisione: confronto della misurazione con delle soglie
+      Conclusione: conoscenza quantitativa di fenomeni
+
+
+2) INCERTEZZA DI MISURA:
+    parametro non negativo che caratterizza la dispersione
+     dei valori che sono attribuiti a un misurando,
+      sulla base delle informazioni utilizzate
+
+    di definizione:
+      blocchi di identificazione (è il limite inferiore all'incertezza globale)
+    di interazione:
+      interazione non modellata correttamente 
+    strumentale:
+      descrizione imperfetta del sistema di misura
+
+      Errori:
+        sistematici
+        casuali  
+
+    Incertezza tipo:
+      valori misurati modellati come realizazzioni di variabili aleatorie
+      incertezza tipo => deviazione standard della pdf
+      fattore di copertura => intervalli di deviazione standard considerati 
+
+    Valutare l'incertezza tipo:
+      A) analisi statistica => calcolo la varianza campionaria
+
+      B) tutti gli altri tipo di analisi: esempio specifiche fornite dello strumento
+
+      A) + B) perchè tanto sono incorrelati
+
+    Analisi statistica misurazione indiretta: 
+      Yi = F(X1i,...,Xni) {area = (base,...,altezza)}
+      - c'è una legge di propagazione dell'errore (quadratica)
+        LEGGE DI PROPAGAZIONE DELL'INCERTEZZA
+        fattore di varianza causato dalla deviazione standard delle singole dimensioni +
+        correlazione tra le dimensioni
+
+    Incertezza obiettivo: limite superiore dell'incertezza di misura     
+
+3) METODO MONTECARLO PER LA PROPAGAZIONE DELL'INCERTEZZA:
+    Si usa quando:
+      Le incertezze di ingresso sono di dimensioni comparabili
+      Derivate parziali difficili da calcolare
+      PDF di uscita non gaussiana
+      f(x) complicata o non calcolabile
+
+    a) Formulazione: Y = f(X1,...,Xn) => PDF(Xi) e congiunte se correlate
+    b) Propagazione: PDF(Xi) per ogni i => PDF(Y)
+    c) Sintesi:
+      valore atteso, 
+      deviazione standard (incertezza tipo)
+      intervallo di confidenza (con una P di copertura specificata e parametro a) 
+
+    CDF INVERSA:
+      ricavo robe dalla cdf empirica della Y
+
+  PER INTEGRAZIONE NUMERICA:
+    ottengo la media dei valori di un uscita generando X infinite volte calcolando l'area dei rettangoli e mediando
+
+  RIDUZIONE DELLA VARIANZA DEL METODO MONTECARLO:
+    - Formulare un nuovo problema Monte Carlo con la stessa soluzione di quello originale ma con sigma più bassa
+
+    Variabili antitetiche: prendo variabili a coppie correlate negativamente 
+    e faccio la media dei risultati delle medie delle coppie
+
+    Variabile di controllo: minimizzo uno stimatore rispetto ad un parametro 
+    inserendo una differenza che sappiamo convergere al valore che vogliamo
+
+    Importance Sampling:
+     sovracampiono delle aree più importanti e poi correggo la distorzione ottenuta
+
+4) MISURE BIOMEDICHE:
+    Misurando-> Sensore-> Condizionamento-> Conversione-> Elaborazione
+
+    Caratteristiche Misure biomediche: 
+      - invasive
+      - non invasive
+                       
+      - attive 
+      - passive
+
+      - Dirette
+      - Indirette
+
+    Tecnica di annullamento: si modifica lo standard noto finche non 
+                  si annulla la differenza tra standard e misurando
+
+    Segnali Biomedici:
+      Basali
+      Evocati
+
+    Curva di calibrazione usata per misurare:
+      Sensibilità
+      Range di validità del modello
+      Offset
+      Linearità
+      Drift
+      Isteresi: valori diversi se in salita o in discesa
+      Impedenza: converte grandezze non elettriche in elettriche
+
+5) BIOPOTENZIALI: 
+    segnali elettrici emessi dall'attività elettrochimica di cellule eccitabili
+
+    Biotelemetria per elettrocardiogramma: Monitor cardiaci
+
+    Evocati: quelli catturati durante stimoli
+
+6) BIOIMMAGINI:
+      Tomografia assiale compiuterizzata (TC):
+        - sezioni assiali di spessori definiti del corpo
+        - utilizza raggi X
+        - si studia l'attenuazione del raggio sparato su una superficie sensibile
+
+        TC con Collimazione:
+          ruotando si generano diversi segnali elettrici e si creano volumi unitari Voxel con una certa intensità
+          immagine 2d dove ogni pixel indica un voxel nel tempo
+
+          Algoritmo: Retroproiezione filtrata ANTITRASFORMATA DI RADON
+                     dal dominio xy a mq
+
+          Finestra: si usa per accentuare determinati valori rispetto ad altri           
+
+      Ecografia:
+        - sfrutta l'effetto piezoelettrico di cristalli
+        - trasmissione e ricezione di on unda a seguito di sollecitazione di un cristallo piezioelettrico
+        - DeltaP = Z*u0
+        - differenti tessuti hanno impedenza acustica differente(parziale trasmissione parziale riflessione)
+        -- si stima la profondita di un tessuto in base al tempo di propagazione
+
+          - risoluzione Assiale
+          - risuluzione Laterale
+
+          Ecografia doppler: stima la velocità relativa tra il trasmettitore e ricevitore
+
+      Esame PET (positrone emission tomography):
+        - permette di localizzare una sostanza marcata con un radioisotopo emittente positroni
+        - positrone sparato -> scontra un elettrone del paziente -> 
+                            raggi gamma si propagano a 180 e vengono rilevati (tracciata retta e chiappato punto)
+          permette di rilevare quindi la concentrazione della sostanza iniettata (alcune zone ne prendono di più -> tumorali)
+
+      Risonanza Magnetica ( Tomografo a RM):
+
+        - generazione campo magnetico B0 che fa allineare i nuclei
+        - generazione campo B1 a frequenza di Larmor che fa ruotare i nuclei 
+        - B1 interrotto->segnali generati mentre si riallienano ->rilevazione -> fourier->Retroproiezione->immagine
+        - il macchinario trasmette prima e poi rileva i segnali ricevuti -> piu segnali piu protoni
+
+7-8) BIOIMMAGINI DIGITALI:
+      Prestazioni: Shepp-logan Phantom
+        immagine digitale di un oggetto simulato con una struttura completamente determinata
+
+      Computer -> acquisisce immagini e le MIGLIORA
+      Uomo -> individua pattern
+
+      Computer Filtraggio: Puntuale, Spaziale, Spettrale
+        - Filtro mediando
+        - Filtro di Laplace
+        - Edge sharpening 
+      Computer aiuto diagnosi: Computer-Aided Diagnosis
+        permettono di individuare pattern o evidenziare aree
+          
+
+      Standard per Bioimmagini:
+        Processo di standardizzazione ancora in atto
+        Problemi: 
+          - record non ancora disponibile quando serve
+          - record non leggibile
+        Caratteristiche:
+          Dati Tecnici
+          Tipo di Formato in uso -> 
+                  DICOM:
+                    Data Elements come attributi (coppie valore XML o JSON) 
+
+        PACS: data center in un ospedale per grandissime moli di Bioimmagini
+
+9) INFORMATICA MEDICA:
+  ogni reparto ha il suo sistema informativa
+  - cartella clinica elettronica:
+    Computer physician Order Entry -> elenco prescrizioni, analisi, farmaci -> controllo allergie
+    Clinical Decision Support Systems -> reminders per dottori
+    Patient encounter
+
+  Codifica e classificazione -> codice per analisi successiva, organizzazione dei codici  
+    ICD -> capitolo blocco e patologia
+
+  Scheda di Dimissione Ospedaliera:
+    informazioni relative ai pazienti in una struttura che vengono mandati poi allo stato
+
+  Modello Fetter:
+    creare un metodo di misura dell'attività ospedaliera
+    classificazione dei pazienti dimessi in sottogruppi a seconda degli output intermedi calcolati indirettamente
+
+  Diagnosis Related Groups DRG:
+    per razionalizzare la spesa sanitaria
+    classi di ricovero: (diagnosi->moltiplicatore del costo medio di un paziente)
+    INPUT caratteristiche paziente -> output DRG,MDC,RTC ecc.. (codici di gruppo)
+    DRG-grouper: raggruppa i pazienti dimessi in gruppi omogenei per assorbimenti di risorse impegnate (ISO-risorse)
+    Desease Staging ISO-gavità: simili per gravità clinica (omogenei rispetto alla prognosi)
+
+    HL7-> sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
+    accapo messaggio, | sezione, ^ paragrafo
+
+
+10) BIOSTATISTICA:
+      - descrittiva: rilevazione, classificazione, sintesi e rappresentazione dei dati
+      - inferenziale: metodo induttivo su un campione di dati per generalizzare poi
+
+      dati: devono esse boni
+
+      Tipi di quesiti di ricerca: 
+        eziologia, 
+        diagnosi, 
+        prognosi, 
+        terapia 
+        -> 
+        dimostrare causalità (Dim di Hip)
+      Tipi di Studi: 
+        - Osservazionali ->descrittivi, analitici
+        - Sperimentali
+        - Prospettici (Esposizione -> esito)
+        - Retroprospettici (Esito-> Esposizione)
+
+        - Case-report/Case-series 
+        - Trasversali:
+              Misurano la prevalenza, una fotografia in un istante di fattore di rischio (esposizione) e effetto
+        - Di coorte:
+          un gruppo di persone vengono analizzate
+          (senza parallela solo infetti/ coorte parallela esposti e non esposti)
+        - Caso-controllo:
+          studio retrospettivo di 2 gruppi con esito e non esito e si analizzano i fattori di rischio presenti o meno
+
+        - Sperimentali:
+          Trial non controllati
+          Trial controllati ma non randomizzati (placebo controllato)
+          Trial controllati randomizzati (placebo non controllato)
+
+          Correlazione o causalità?:
+            Relazione temporale
+            Plausibilità
+            Coerenza
+            Forza
+            Relazione dose-risposta
+            Disegno dello studio
+            Giudicare l'evidenza
+
+      Strumenti di ricerca:
+        Primari -> studi condotti su campioni o su singole osservazioni (i tipi di studi di cui sopra)
+        Secondari:
+         INTEGRAZIONE dei diversi studi primari per interpretarli insieme
+          Revisioni Sistematiche
+          Meta-analisi:
+            Approccio quantitativo che utilizza metodi statistici per estrapolare
+             informazioni dall'insieme degli studi primari-> ottenere un indice quantitativo unico (MEDIA PESATA)
+
+            Risk Ratio:
+              P(evento|esposti) / P(evento/non esposti)
+            Odds: P/1-P
+            Odds Ratio:
+              (P(ev/esp)/1-P(ev/esp)) / (P(ev/nonesp) / 1-P(ev/nonesp))
+
+            Sequenza operazioni:
+              Definizione Obiettivo
+              Definizione criteri di inclusione e esclusione dei Trial (sottoposti)
+              Ricerca Trial
+              Analisi critica dei Trial (preferibile eterogeneità per eventuali risultati contraddittori)
+              Combinazione dei risultati 
+              Interpretazione (considerare anche eventuale eterogeneità)
+
+          Campioni:
+            Campionamento probabilistico:
+              stratificato (divisione per età)
+              a grappopo (diversi medici o reparti osp)
+            Non probabilistico (varie)
+
+          Verifica di ipotesi:
+
+          Test di ipotesi:
+            Capire se le ipotesi sono formulate correttamente nei dati
+            Test di Wald =>(valore-P)
+
+11) ANCOVA:
+  Per test a 2 gruppi (casi e controllo)      
+  - REGRESSIONE LINEARE 𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝜀 |
+                      x2 => pre trattamento
+                      x3 => dicomodica (0 o 1)
+  => least square error
+  - Se considero covarianza x2x3 = x4 =>
+   𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝛽4𝑥4+𝜀 
+
+  Analisi Residui 
+
+12) ANOVA:
+  Per test con più gruppi
+    Ipotesi cumulativa su tutti i gruppi insieme 
+    Scarto totale:
+      SQw + SQb
+          SQw => Variabilità all’interno di ogni gruppo ( within)
+          SQb =>    + Variabilità fra i gruppi ( between)
+    per il test di ipotesi:
+      F = SQw*(J-1)/SQb*(n-J) => quantile 1-a di rifiuto H0 {𝐹𝑜𝑠𝑠>𝐹𝐽−1,𝑛−𝐽;1−𝛼}
+
+    ANOVA non parametrico per ranghi : 
+      Test di Kruskal Wallis
+
+    Analisi post-hoc:
+      su ipotesi rifiutata (studio a coppie)
+
+      Correzione di Bonferroni
+      Procedura di Benjamini Hochberg:
+        si prendono solo i gruppi con un p-value inferiore ad una soglia
+          => rimuovere i falsi positivi, regolare la false discovery rate
+
+  ANOVA a misure ripetute:
+    un solo gruppo ma in n>2 situazioni differenti
+
+    correlazione intraclasse:
+      correlazione tra situazioni diverse di uno stesso gruppo
+      ρ = 𝜎𝜋2 / (𝜎𝜋2 + 𝜎2)
+
+    Modello: 
+      𝑥𝑖𝑗 = 𝜇𝑗 + 𝜋𝑖 + 𝜀𝑖𝑗 => media classe + variabilità di i (uguale per tutti la colonna j) + errore ij
+
+    Scarto totale (variabilità):
+      𝑆𝑄𝑡𝑜𝑡 = 𝑆𝑄𝑔𝑟 + 𝑆𝑄𝑟𝑒𝑠 + 𝑆𝑄𝑠𝑢𝑏
+
+      gr => tra gruppi j
+      res => nello stesso gruppo 
+      sub => tra soggetti i
+
+    per il test d'ipotesi:
+      differenze tra gruppi => Fgr = SQgr/SQres
+      differenze tra soggetti => Fsub = SQsub/SQres
+
+    ANOVA a misure ripetute non parametrico    
+      
+13) ROC
+
+14) Test parametrici
+
+15) Test non parametrici
+
+16) Test di adattamento
+
+
+
+
+
+
+
+
