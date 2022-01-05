@@ -12,7 +12,6 @@
       Decisione: confronto della misurazione con delle soglie
       Conclusione: conoscenza quantitativa di fenomeni
 
-
 2) INCERTEZZA DI MISURA:
     parametro non negativo che caratterizza la dispersione
      dei valori che sono attribuiti a un misurando,
@@ -213,7 +212,6 @@
     HL7-> sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
     accapo messaggio, | sezione, ^ paragrafo
 
-
 10) BIOSTATISTICA:
       - descrittiva: rilevazione, classificazione, sintesi e rappresentazione dei dati
       - inferenziale: metodo induttivo su un campione di dati per generalizzare poi
@@ -345,7 +343,7 @@
       differenze tra soggetti => Fsub = SQsub/SQres
 
     ANOVA a misure ripetute non parametrico    
-      
+
 13) ROC
 
 14) Test parametrici
