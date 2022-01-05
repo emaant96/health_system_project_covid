@@ -86,7 +86,7 @@ if (exec_optim) {
     
     lossArray[counter, ] <- c(fit$par[1], fit$par[2], fit$value, prop)
     counter <- counter + 1
-    cat("counter: ", counter,"\n")
+    cat("loading ", (counter - 1) * 100 /NrowLossArray,"%\n")
   }
 
   idxRes <- match(
