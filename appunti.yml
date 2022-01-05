@@ -5,7 +5,6 @@
     Definizione della scala di misura:
       {Nominale, Ordinale, ad intervallo, a rapporto, assoluta}
 
-
     Processi misurativi:
       Identificazione: proprietà migliore da misurare dell'oggetto 
       Modellazione: modello matematico usato (interazioni tra misurando e oggetto)
@@ -170,7 +169,6 @@
         - Edge sharpening 
       Computer aiuto diagnosi: Computer-Aided Diagnosis
         permettono di individuare pattern o evidenziare aree
-          
 
       Standard per Bioimmagini:
         Processo di standardizzazione ancora in atto
@@ -190,7 +188,7 @@
   - cartella clinica elettronica:
     Computer physician Order Entry -> elenco prescrizioni, analisi, farmaci -> controllo allergie
     Clinical Decision Support Systems -> reminders per dottori
-    Patient encounter
+    Patient encounter -> incontri del personale sanitario col paziente
 
   Codifica e classificazione -> codice per analisi successiva, organizzazione dei codici  
     ICD -> capitolo blocco e patologia
@@ -204,6 +202,7 @@
 
   Diagnosis Related Groups DRG:
     per razionalizzare la spesa sanitaria
+    a seconda della malattia -> ICD9-CM -> a seconda della diagnosi -> MDC -> caratteristiche del paziente -> DRG
     classi di ricovero: (diagnosi->moltiplicatore del costo medio di un paziente)
     INPUT caratteristiche paziente -> output DRG,MDC,RTC ecc.. (codici di gruppo)
     DRG-grouper: raggruppa i pazienti dimessi in gruppi omogenei per assorbimenti di risorse impegnate (ISO-risorse)
@@ -216,7 +215,7 @@
       - descrittiva: rilevazione, classificazione, sintesi e rappresentazione dei dati
       - inferenziale: metodo induttivo su un campione di dati per generalizzare poi
 
-      dati: devono esse boni
+      dati: devono esse boni sennò la statistica fa schifo a prescindere
 
       Tipi di quesiti di ricerca: 
         eziologia, 
@@ -224,9 +223,9 @@
         prognosi, 
         terapia 
         -> 
-        dimostrare causalità (Dim di Hip)
+        dimostrare causalità (Dim di ip)
       Tipi di Studi: 
-        - Osservazionali ->descrittivi, analitici
+        - Osservazionali -> descrittivi, analitici
         - Sperimentali
         - Prospettici (Esposizione -> esito)
         - Retroprospettici (Esito-> Esposizione)
