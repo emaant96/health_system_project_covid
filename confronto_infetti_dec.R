@@ -1,7 +1,7 @@
 require(deSolve)
 require(ggplot2)
 require(smooth)
-source("test_miei/ggplot_theme_Publication.R")
+source("ggplot_theme_Publication.R")
 options(scipen = 999)
 
 DatasetCovid <-

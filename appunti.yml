@@ -213,11 +213,10 @@
     per razionalizzare la spesa sanitaria
     a seconda della malattia -> ICD9-CM -> a seconda della diagnosi -> MDC -> caratteristiche del paziente -> DRG
     classi di ricovero: (diagnosi->moltiplicatore del costo medio di un paziente)
-    INPUT caratteristiche paziente -> output DRG,MDC,RTC ecc.. (codici di gruppo)
     DRG-grouper: raggruppa i pazienti dimessi in gruppi omogenei per assorbimenti di risorse impegnate (ISO-risorse)
     Desease Staging ISO-gavità: simili per gravità clinica (omogenei rispetto alla prognosi)
 
-    HL7-> sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
+    HL7: sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
     accapo messaggio, | sezione, ^ paragrafo
 
 10) BIOSTATISTICA:
@@ -242,19 +241,16 @@
         -> 
         dimostrare causalità (Dim di ip)
       Tipi di Studi: 
-        - Osservazionali -> descrittivi, analitici
-        - Sperimentali
-        - Prospettici (Esposizione -> esito)
-        - Retroprospettici (Esito-> Esposizione)
-
-        - Case-report/Case-series 
-        - Trasversali:
-              Misurano la prevalenza, una fotografia in un istante di fattore di rischio (esposizione) e effetto
-        - Di coorte:
-          un gruppo di persone vengono analizzate
-          (senza parallela solo infetti/ coorte parallela esposti e non esposti)
-        - Caso-controllo:
-          studio retrospettivo di 2 gruppi con esito e non esito e si analizzano i fattori di rischio presenti o meno
+        - Osservazionali:
+          - descrittivi: Case-report/Case-series
+          - analitici:
+              - Trasversali:
+                  Misurano la prevalenza, una fotografia in un istante di fattore di rischio (esposizione) e effetto
+              - Di coorte: Prospettici (Esposizione -> esito)
+                  un gruppo di persone vengono analizzate
+                     (senza parallela solo infetti/ coorte parallela esposti e non esposti)
+              - Caso-controllo: Retroprospettici (Esito-> Esposizione)
+                  studio retrospettivo di 2 gruppi con esito e non esito e si analizzano i fattori di rischio presenti o meno
 
         - Sperimentali:
           Trial non controllati
@@ -273,8 +269,8 @@
       Strumenti di ricerca:
         Primari -> studi condotti su campioni o su singole osservazioni (i tipi di studi di cui sopra)
         Secondari:
-         INTEGRAZIONE dei diversi studi primari per interpretarli insieme
-          Revisioni Sistematiche
+          INTEGRAZIONE dei diversi studi primari per interpretarli insieme
+          Revisioni Sistematiche: riassumere dati delle ricerche primarie
           Meta-analisi:
             Approccio quantitativo che utilizza metodi statistici per estrapolare
              informazioni dall'insieme degli studi primari-> ottenere un indice quantitativo unico (MEDIA PESATA)
@@ -283,7 +279,7 @@
               P(evento|esposti) / P(evento/non esposti)
             Odds: P/1-P
             Odds Ratio:
-              (P(ev/esp)/1-P(ev/esp)) / (P(ev/nonesp) / 1-P(ev/nonesp))
+              (P(ev|esp)/1-P(ev|esp)) / (P(ev|nonesp) / 1-P(ev|nonesp))
 
             Sequenza operazioni:
               Definizione Obiettivo
@@ -296,7 +292,7 @@
           Campioni:
             Campionamento probabilistico:
               stratificato (divisione per età)
-              a grappopo (diversi medici o reparti osp)
+              a grappolo (diversi medici o reparti osp)
             Non probabilistico (varie)
 
           Verifica di ipotesi:

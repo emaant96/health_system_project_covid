@@ -1,6 +1,7 @@
 require(deSolve)
 library(ggplot2)
-source("test_miei/ggplot_theme_Publication.R")
+source("ggplot_theme_Publication.R")
+options(scipen = 999)
 
 # 9.52, 9.08, 8.33
 
