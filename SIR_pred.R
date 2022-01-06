@@ -2,7 +2,7 @@ require(deSolve)
 library(ggplot2)
 source("test_miei/ggplot_theme_Publication.R")
 
-# 9.52, 9.08
+# 9.52, 9.08, 8.33
 
 DatasetCovid <-
   read.csv(

@@ -1,28 +1,26 @@
 require(deSolve)
-library(ggplot2)
+require(ggplot2)
+require(config)
 source("ggplot_theme_Publication.R")
 options(scipen=999)
+Sys.setenv(R_CONFIG_ACTIVE = "SIR")
+config <- config::get()
 
-DatasetCovid <-
-  read.csv('./dpc-covid19-ita-andamento-nazionale.csv')
+DatasetCovid <- read.csv(config$dataset)
 
-initDs <- 510
-fineDs <- 605
-dsCovid <- DatasetCovid[initDs:fineDs,]
+dsCovid <- DatasetCovid[config$init:config$end,]
 
 Rimossi <-
   dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
 
 Infetti <- dsCovid$totale_positivi
 
-Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
-NInit <- Pop
-NrowLossArray <- 10
-lossArray <- matrix(0, NrowLossArray, 4)
+NInit <- config$pop
+lossArray <- matrix(0, config$rowN, 4)
 
 counter <- 1
-exec_optim <- FALSE #TRUE per il fitting, FALSE per i dati già calcolati
+exec_optim <- config$fit
 
 closed.sir.model <- function (t, x, params) {
   S <- x[1]
@@ -61,7 +59,7 @@ sse.sir <- function(params0) {
 if (exec_optim) {
   init <- 0.005
   passo <- 0.005
-  fine <- init + passo * (NrowLossArray - 1)
+  fine <- init + passo * (config$rowN - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
     
@@ -69,7 +67,7 @@ if (exec_optim) {
     I0 <- Infetti[1]
     R0 <- Rimossi[1]
     
-    params0 <- c(0.076, 0.027)
+    params0 <- c(config$beta0, config$gamma0)
     
     fit <- optim(
       params0,
@@ -105,7 +103,7 @@ if (exec_optim) {
 
 RZero <- betaRes/gammaRes
 
-cat("il valore ottimo di R0 è: ", RZero)
+cat("il valore ottimo di R0 è: ", RZero,"\n")
 
 Suscettibili <- N - Rimossi - Infetti
 
@@ -120,7 +118,7 @@ R0 <- Rimossi[1]
 
 
 giorni_predizione <- 100
-t <- seq(0, fineDs-initDs + giorni_predizione - 1, by = 1)
+t <- seq(0, config$end - config$init + giorni_predizione - 1, by = 1)
 
 mod.pred <- as.data.frame(
   ode(

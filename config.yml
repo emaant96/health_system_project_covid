@@ -1,0 +1,19 @@
+default:
+  beta0: 0.5
+  gamma0: 0.5
+  pop: 59000000
+  dataset: 'dpc-covid19-ita-andamento-nazionale.csv'
+  forecast: 100
+
+SIR:
+  fit: FALSE
+  rowN: 10
+  init: 510
+  end: 605
+
+SEIR:
+  fit: FALSE
+  rowN: 10
+  init: 230
+  end: 300
+  invdelta: 14
