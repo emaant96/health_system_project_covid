@@ -3,7 +3,7 @@ library(ggplot2)
 source("ggplot_theme_Publication.R")
 options(scipen = 999)
 
-# 9.52, 9.08, 8.33
+# 9.52, 9.08, 8.33, 8.78
 
 DatasetCovid <-
   read.csv(

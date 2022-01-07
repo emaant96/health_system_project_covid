@@ -62,7 +62,7 @@
       deviazione standard (incertezza tipo)
       intervallo di confidenza (con una P di copertura specificata e parametro a) 
 
-    CDF INVERSA:
+  CDF INVERSA:
       ricavo robe dalla cdf empirica della Y
 
   PER INTEGRAZIONE NUMERICA:
@@ -194,12 +194,12 @@
 
 9) INFORMATICA MEDICA:
   ogni reparto ha il suo sistema informativa
-  - cartella clinica elettronica:
+  cartella clinica elettronica:
     Computer physician Order Entry -> elenco prescrizioni, analisi, farmaci -> controllo allergie
     Clinical Decision Support Systems -> reminders per dottori
     Patient encounter -> incontri del personale sanitario col paziente
 
-  Codifica e classificazione -> codice per analisi successiva, organizzazione dei codici  
+  Codifica e classificazione: codice per analisi successiva, organizzazione dei codici
     ICD -> capitolo blocco e patologia
 
   Scheda di Dimissione Ospedaliera:
@@ -216,7 +216,7 @@
     DRG-grouper: raggruppa i pazienti dimessi in gruppi omogenei per assorbimenti di risorse impegnate (ISO-risorse)
     Desease Staging ISO-gavità: simili per gravità clinica (omogenei rispetto alla prognosi)
 
-    HL7: sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
+  HL7: sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
     accapo messaggio, | sezione, ^ paragrafo
 
 10) BIOSTATISTICA:
@@ -291,9 +291,12 @@
 
           Campioni:
             Campionamento probabilistico:
+              semplice
               stratificato (divisione per età)
+              sistematico
               a grappolo (diversi medici o reparti osp)
-            Non probabilistico (varie)
+            Non probabilistico:
+              non scelti a caso -> bias
 
           Verifica di ipotesi:
 
@@ -301,29 +304,42 @@
             Capire se le ipotesi sono formulate correttamente nei dati
             Test di Wald =>(valore-P)
 
-11) ANCOVA:
-  Per test a 2 gruppi (casi e controllo)      
-  - REGRESSIONE LINEARE 𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝜀 |
-                      x2 => pre trattamento
-                      x3 => dicomodica (0 o 1)
-  => least square error
-  - Se considero covarianza x2x3 = x4 =>
-   𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝛽4𝑥4+𝜀 
+11) Test adattamento:
+  Test Chi-square di bontà di adattamento -> (o - e)^2 / e
+  Test di Kolmogorov-Smirnov -> CDF
+  Test Shapiro-Wilk -> varianza, q-q plot
 
-  Analisi Residui 
+  Se non normale:
+    Trasformazione Box-Cox -> lambda da scegliere
 
-12) ANOVA:
+12) Test parametrici:
+  Ipotesi H0 su un parametro di una distribuzione ( -> T student)
+  Ipotesi H0 similarità parametri due distribuzioni ( -> Fisher)
+  Test di adattamento con proporzioni (test di Pearson)
+
+13) Test non parametrici:
+  motivazioni:
+    non abbiamo ipotesi sulle distribuzioni
+    pochi campioni
+    scala di misura ordinale
+
+  Test di Wilkoxon -> mediana
+  Test di Mann-Whitney -> due campioni t [0,n1n2]
+  Coefficiente di Spearman -> correlazione
+
+14) ANOVA:
   Per test con più gruppi
-    Ipotesi cumulativa su tutti i gruppi insieme 
+    Ipotesi cumulativa su tutti i gruppi insieme
+  Anova a una via:
     Scarto totale:
       SQw + SQb
-          SQw => Variabilità all’interno di ogni gruppo ( within)
-          SQb =>    + Variabilità fra i gruppi ( between)
+          SQw => Variabilità all’interno di ogni gruppo (within)
+          SQb =>    + Variabilità fra i gruppi (between)
     per il test di ipotesi:
       F = SQw*(J-1)/SQb*(n-J) => quantile 1-a di rifiuto H0 {𝐹𝑜𝑠𝑠>𝐹𝐽−1,𝑛−𝐽;1−𝛼}
 
-    ANOVA non parametrico per ranghi : 
-      Test di Kruskal Wallis
+  ANOVA non parametrico per ranghi :
+    Test di Kruskal Wallis (Mann-Whitney k>2)
 
     Analisi post-hoc:
       su ipotesi rifiutata (studio a coppie)
@@ -340,29 +356,36 @@
       correlazione tra situazioni diverse di uno stesso gruppo
       ρ = 𝜎𝜋2 / (𝜎𝜋2 + 𝜎2)
 
-    Modello: 
+    Modello:
       𝑥𝑖𝑗 = 𝜇𝑗 + 𝜋𝑖 + 𝜀𝑖𝑗 => media classe + variabilità di i (uguale per tutti la colonna j) + errore ij
 
     Scarto totale (variabilità):
       𝑆𝑄𝑡𝑜𝑡 = 𝑆𝑄𝑔𝑟 + 𝑆𝑄𝑟𝑒𝑠 + 𝑆𝑄𝑠𝑢𝑏
 
       gr => tra gruppi j
-      res => nello stesso gruppo 
+      res => nello stesso gruppo
       sub => tra soggetti i
 
     per il test d'ipotesi:
       differenze tra gruppi => Fgr = SQgr/SQres
       differenze tra soggetti => Fsub = SQsub/SQres
 
-    ANOVA a misure ripetute non parametrico    
+    ANOVA a misure ripetute non parametrico
+
+15) ANCOVA:
+  Per test a 2 gruppi (casi e controllo)      
+  - REGRESSIONE LINEARE 𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝜀 |
+                      x2 => pre trattamento
+                      x3 => dicomodica (0 o 1)
+  => least square error
+  - Se considero covarianza x2x3 = x4 =>
+   𝑦=𝛽1+𝛽2𝑥2+𝛽3𝑥3+𝛽4𝑥4+𝜀 
+
+  Analisi Residui 
 
 13) ROC
 
-14) Test parametrici
 
-15) Test non parametrici
-
-16) Test di adattamento
 
 
 
