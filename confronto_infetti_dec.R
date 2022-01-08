@@ -19,7 +19,7 @@ Infetti <- Infetti
 Deceduti <- Deceduti * 1100
 smaDec <- sma(Deceduti,7)
 Deceduti <- c(smaDec$fitted)
-Intensive <- Intensive * 230
+Intensive <- Intensive * 210
 date <- DatasetCovid$data
 
 dati_reali <- data.frame(

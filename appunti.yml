@@ -17,7 +17,7 @@
       sulla base delle informazioni utilizzate
 
     di definizione:
-      blocchi di identificazione (è il limite inferiore all'incertezza globale)
+      sbagliata identificazione modello  (è il limite inferiore all'incertezza globale)
     di interazione:
       interazione non modellata correttamente 
     strumentale:
@@ -33,11 +33,11 @@
       fattore di copertura => intervalli di deviazione standard considerati 
 
     Valutare l'incertezza tipo:
-      A) analisi statistica => calcolo la varianza campionaria
+      A) analisi statistica: calcolo la varianza campionaria
 
       B) tutti gli altri tipo di analisi: esempio specifiche fornite dello strumento
 
-      A) + B) perchè tanto sono incorrelati
+      comb quadratica A+B  perchè sono incorrelati
 
     Analisi statistica misurazione indiretta: 
       Yi = F(X1i,...,Xni) {area = (base,...,altezza)}
@@ -383,11 +383,17 @@
 
   Analisi Residui 
 
-13) ROC
+13) ROC:
+  schema grafico per un classificatore binario
+  Curve tracciate facendo variare la soglia
+  - Y sensibilità -> True Positive Rate = veri positivi / positivi totali
+  - X (1-specificità) -> False Positive Rate = falsi positivi / negativi totali
 
+  Curva migliore ha auc più simile a 1
 
-
-
+  Criteri per scelta soglia:
+    - minima distanza dal punto (0, 1)
+    - massima distanza in verticale dalla bisettrice
 
 
 
