@@ -33,7 +33,7 @@ Vaccinati <- Vaccinati[366:length(Vaccinati)]
 Pop <- 59550000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
-NrowLossArray <- 10
+NrowLossArray <- 1
 lossArray <- matrix(0, NrowLossArray, 5)
 
 counter <- 1
@@ -80,7 +80,7 @@ sse.sirv <- function(params0) {
 }
 
 if (exec_optim) {
-  init <- 0.1
+  init <- 1
   passo <- 0.1
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {

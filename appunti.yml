@@ -4,6 +4,9 @@
     Definizione della mappatura
     Definizione della scala di misura:
       {Nominale, Ordinale, ad intervallo, a rapporto, assoluta}
+    Condizioni di misura:
+      ripetibilità
+      riproducibilità
 
     Processi misurativi:
       Identificazione: proprietà migliore da misurare dell'oggetto 
@@ -14,7 +17,7 @@
 2) INCERTEZZA DI MISURA:
     parametro non negativo che caratterizza la dispersione
      dei valori che sono attribuiti a un misurando,
-      sulla base delle informazioni utilizzate
+     sulla base delle informazioni utilizzate
 
     di definizione:
       sbagliata identificazione modello  (è il limite inferiore all'incertezza globale)
@@ -48,36 +51,40 @@
 
     Incertezza obiettivo: limite superiore dell'incertezza di misura     
 
-3) METODO MONTECARLO PER LA PROPAGAZIONE DELL'INCERTEZZA:
-    Si usa quando:
-      Le incertezze di ingresso sono di dimensioni comparabili
-      Derivate parziali difficili da calcolare
-      PDF di uscita non gaussiana
-      f(x) complicata o non calcolabile
+3) METODO MONTECARLO:
+  Si usa quando:
+    - Le incertezze di ingresso sono di dimensioni comparabili
+    Derivate parziali difficili da calcolare
+    PDF di uscita non gaussiana
+    f(x) complicata o non calcolabile
 
+  ML PER LA PROPAGAZIONE DELL'INCERTEZZA:
     a) Formulazione: Y = f(X1,...,Xn) => PDF(Xi) e congiunte se correlate
     b) Propagazione: PDF(Xi) per ogni i => PDF(Y)
     c) Sintesi:
-      valore atteso, 
+      valore atteso,
       deviazione standard (incertezza tipo)
-      intervallo di confidenza (con una P di copertura specificata e parametro a) 
+      intervallo di confidenza (con una P di copertura specificata e parametro a)
 
   CDF INVERSA:
       ricavo robe dalla cdf empirica della Y
 
-  PER INTEGRAZIONE NUMERICA:
+  ML PER INTEGRAZIONE NUMERICA:
     ottengo la media dei valori di un uscita generando X infinite volte calcolando l'area dei rettangoli e mediando
 
   RIDUZIONE DELLA VARIANZA DEL METODO MONTECARLO:
     - Formulare un nuovo problema Monte Carlo con la stessa soluzione di quello originale ma con sigma più bassa
 
-    Variabili antitetiche: prendo variabili a coppie correlate negativamente 
+    1-Variabili antitetiche: prendo variabili a coppie correlate negativamente
     e faccio la media dei risultati delle medie delle coppie
+    - invece di prendere tutte variabili Xi scorrelate le prendo a coppie:
+        - scelgi una X e poi prendo anche dalla funzione 1-X (quindi ne prendo N ma ne scelgo solo N/2
+          gli altri sono obbligatori => h(Xi) e h(1-Xi) con h non decrescente
 
-    Variabile di controllo: minimizzo uno stimatore rispetto ad un parametro 
+    2-Variabile di controllo: minimizzo uno stimatore rispetto ad un parametro
     inserendo una differenza che sappiamo convergere al valore che vogliamo
 
-    Importance Sampling:
+    3-Importance Sampling:
      sovracampiono delle aree più importanti e poi correggo la distorzione ottenuta
 
 4) MISURE BIOMEDICHE:
@@ -100,14 +107,18 @@
       Basali
       Evocati
 
-    Caratteristiche merceologiche:
-      Valutazione funzionale (cardiache respiratorie neuro)
-      Bioimmagini
-      Diagnostica clinica
-      Chirurgia
-      Organi artificiali, protesi
-      Rabilitazione motoria
-      Riabilitazione sensoriale
+    Strumenti misurazione:
+      Classificazione Verticale: complessità
+      Principio fisico: principio della tecnica di misurazione
+      Cliniche: organo su cui è applicato
+      Classificazioni Orizzontali o merceologiche:
+        Area Valutazione funzionale (cardiache respiratorie neuro)
+        Area Bioimmagini
+        Diagnostica clinica
+        Chirurgia
+        Organi artificiali, protesi
+        Rabilitazione motoria
+        Riabilitazione sensoriale
 
     Curva di calibrazione usata per misurare:
       Sensibilità
@@ -115,8 +126,8 @@
       Offset
       Linearità
       Drift
-      Isteresi: valori diversi se in salita o in discesa
-      Impedenza: converte grandezze non elettriche in elettriche
+    Isteresi: valori diversi se in salita o in discesa
+    Impedenza: converte grandezze non elettriche in elettriche
 
 5) BIOPOTENZIALI: 
     segnali elettrici emessi dall'attività elettrochimica di cellule eccitabili
@@ -136,13 +147,13 @@
           immagine 2d dove ogni pixel indica un voxel nel tempo
 
           Algoritmo: Retroproiezione filtrata ANTITRASFORMATA DI RADON
-                     dal dominio xy a mq
+                     dal dominio mq a xy
 
           Finestra: si usa per accentuare determinati valori rispetto ad altri           
 
       Ecografia:
         - sfrutta l'effetto piezoelettrico di cristalli
-        - trasmissione e ricezione di on unda a seguito di sollecitazione di un cristallo piezioelettrico
+        - trasmissione e ricezione di un unda a seguito di sollecitazione di un cristallo piezioelettrico
         - DeltaP = Z*u0
         - differenti tessuti hanno impedenza acustica differente(parziale trasmissione parziale riflessione)
         -- si stima la profondita di un tessuto in base al tempo di propagazione
@@ -159,7 +170,6 @@
           permette di rilevare quindi la concentrazione della sostanza iniettata (alcune zone ne prendono di più -> tumorali)
 
       Risonanza Magnetica ( Tomografo a RM):
-
         - generazione campo magnetico B0 che fa allineare i nuclei
         - generazione campo B1 a frequenza di Larmor che fa ruotare i nuclei 
         - B1 interrotto->segnali generati mentre si riallienano ->rilevazione -> fourier->Retroproiezione->immagine
