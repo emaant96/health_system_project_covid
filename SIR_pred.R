@@ -12,6 +12,13 @@ DatasetCovid <-
     )
   )
 
+DatasetVax <-
+  read.csv(
+    url(
+      'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/country_data/Italy.csv'
+    )
+  )
+
 initDs <- 673
 fineDs <- length(DatasetCovid[,1])
 dsCovid <- DatasetCovid[initDs:fineDs,]
@@ -24,7 +31,7 @@ Infetti <- dsCovid$totale_positivi
 Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
-NrowLossArray <- 10
+NrowLossArray <- 1
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
@@ -59,13 +66,13 @@ sse.sir <- function(params0) {
     hmax = 1 / 120
   ))
 
-  diff <- sum((out$I - Infetti)^2 + (out$R - Rimossi)^2)
+  diff <- sum(0.5 * ((out$I - Infetti)/S0)^2 + 0.5 * ((out$R - Rimossi)/S0)^2)
   sse <- diff
 }
 
 if (exec_optim) {
-  init <- 0.005
-  passo <- 0.005
+  init <- 0.7
+  passo <- 0.1
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop

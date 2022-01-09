@@ -370,7 +370,8 @@
       differenze tra gruppi => Fgr = SQgr/SQres
       differenze tra soggetti => Fsub = SQsub/SQres
 
-    ANOVA a misure ripetute non parametrico
+    ANOVA a misure ripetute non parametrico:
+      stessi soggetti situazioni differenti -> rango
 
 15) ANCOVA:
   Per test a 2 gruppi (casi e controllo)      
@@ -394,9 +395,3 @@
   Criteri per scelta soglia:
     - minima distanza dal punto (0, 1)
     - massima distanza in verticale dalla bisettrice
-
-
-
-
-
-
