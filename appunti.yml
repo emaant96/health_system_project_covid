@@ -205,15 +205,15 @@
 9) INFORMATICA MEDICA:
   ogni reparto ha il suo sistema informativa
   cartella clinica elettronica:
-    Computer physician Order Entry -> elenco prescrizioni, analisi, farmaci -> controllo allergie
-    Clinical Decision Support Systems -> reminders per dottori
+    Computer physician Order Entry (CPOE) -> elenco prescrizioni, analisi, farmaci -> controllo allergie
+    Clinical Decision Support Systems (CDSS)-> reminders per dottori
     Patient encounter -> incontri del personale sanitario col paziente
 
   Codifica e classificazione: codice per analisi successiva, organizzazione dei codici
     ICD -> capitolo blocco e patologia
 
   Scheda di Dimissione Ospedaliera:
-    informazioni relative ai pazienti in una struttura che vengono mandati poi allo stato
+    informazioni relative ai pazienti (anagrafico, clinico, struttura) che vengono mandate poi allo stato
 
   Modello Fetter:
     creare un metodo di misura dell'attività ospedaliera
@@ -221,13 +221,20 @@
 
   Diagnosis Related Groups DRG:
     per razionalizzare la spesa sanitaria
-    a seconda della malattia -> ICD9-CM -> a seconda della diagnosi -> MDC -> caratteristiche del paziente -> DRG
-    classi di ricovero: (diagnosi->moltiplicatore del costo medio di un paziente)
-    DRG-grouper: raggruppa i pazienti dimessi in gruppi omogenei per assorbimenti di risorse impegnate (ISO-risorse)
+    DRG: è un sistema che permette di classificare tutti i pazienti dimessi da un ospedale in gruppi
+        omogenei per assorbimento di risorse impegnate (ISO-risorse)
+    classificazione: a seconda della malattia ->
+                                                ICD9-CM (16k) ->
+                      a seconda della diagnosi ->
+                                                MDC (25) ->
+                      caratteristiche del paziente ->
+                                                DRG (538)
+    classi di ricovero del DRG: (diagnosi->moltiplicatore del costo medio di un paziente)
+    DRG-grouper: software che raggruppa con pochi parametri in input (moltiplica per un coefficiente)
     Desease Staging ISO-gavità: simili per gravità clinica (omogenei rispetto alla prognosi)
 
   HL7: sistema di comunicazione per i dati sanitari tra ospedali e intra ospedale
-    accapo messaggio, | sezione, ^ paragrafo
+    (\n) messaggio, (|) sezione, (^) paragrafo
 
 10) BIOSTATISTICA:
       - descrittiva: rilevazione, classificazione, sintesi e rappresentazione dei dati
@@ -250,6 +257,7 @@
         terapia 
         -> 
         dimostrare causalità (Dim di ip)
+
       Tipi di Studi: 
         - Osservazionali:
           - descrittivi: Case-report/Case-series
@@ -323,9 +331,13 @@
     Trasformazione Box-Cox -> lambda da scegliere
 
 12) Test parametrici:
-  Ipotesi H0 su un parametro di una distribuzione ( -> T student)
-  Ipotesi H0 similarità parametri due distribuzioni ( -> Fisher)
-  Test di adattamento con proporzioni (test di Pearson)
+  Ipotesi H0 su un parametro di una distribuzione:
+    media -> N(0,1) oppure T di Student
+    varianza -> 𝜒2
+  Ipotesi H0 similarità parametri due distribuzioni:
+    medie -> T di student
+    varianze -> Fisher
+  Test di adattamento con proporzioni (test di Pearson) -> 𝜒2
 
 13) Test non parametrici:
   motivazioni:
@@ -341,11 +353,9 @@
   Per test con più gruppi
     Ipotesi cumulativa su tutti i gruppi insieme
   Anova a una via:
-    Scarto totale:
-      SQw + SQb
-          SQw => Variabilità all’interno di ogni gruppo (within)
-          SQb =>    + Variabilità fra i gruppi (between)
-    per il test di ipotesi:
+
+
+   statistica test:
       F = SQw*(J-1)/SQb*(n-J) => quantile 1-a di rifiuto H0 {𝐹𝑜𝑠𝑠>𝐹𝐽−1,𝑛−𝐽;1−𝛼}
 
   ANOVA non parametrico per ranghi :
@@ -405,3 +415,26 @@
   Criteri per scelta soglia:
     - minima distanza dal punto (0, 1)
     - massima distanza in verticale dalla bisettrice
+
+
+
+
+
+
+FUNZIONAMENTO BIOIMMAGINI:
+  1) TAC:
+    ATTENUAZIONE RAGGI X SU 360° (di linea su tutte le linee)
+    ANTITRASFORMATA DI RADON
+  2) ECOGRAFO:
+    EFFETTO PIEZOELETTRICO SIA IN EMISSIONE CHE IN RICEZIONE
+    INTENSITà ECO E TEMPO IMPIEGATO
+    - monodimensionale
+    - modulazione di luminosità
+    - movimenti nel tempo lungo una linea
+  3) PET:
+    radiazioni -> positrone -bum-> elettrone -> annichilimento -> raggio gamma -> rilevatore
+    Line of response -> raggruppate in proiezioni -> ANTITRASFORMATA DI RADON
+    SUV=(concentrazione tessuto/concentrazione tutto il corpo)
+  4) RM:
+    campo B0 (B(X)) -> dipoli paralleli -> campo B1 -> dipoli riotano -> spengo B1 -> segnali RF
+    Spettro del segnale -> frequenza indica posizione, modulo indica numero di dipoli
