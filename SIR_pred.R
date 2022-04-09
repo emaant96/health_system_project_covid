@@ -19,7 +19,7 @@ DatasetVax <-
     )
   )
 
-initDs <- 673
+initDs <- 679 + 6
 fineDs <- length(DatasetCovid[,1])
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
@@ -31,7 +31,7 @@ Infetti <- dsCovid$totale_positivi
 Pop <- 59000000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
-NrowLossArray <- 1
+NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 4)
 
 counter <- 1
@@ -65,14 +65,14 @@ sse.sir <- function(params0) {
     parms = c(beta, gamma),
     hmax = 1 / 120
   ))
-
-  diff <- sum(0.5 * ((out$I - Infetti)/S0)^2 + 0.5 * ((out$R - Rimossi)/S0)^2)
+  maxI <- max(out$I)
+  diff <- sum(0.5 * ((out$I - Infetti)/maxI)^2 + 0.5 * ((out$R - Rimossi)/maxI)^2)
   sse <- diff
 }
 
 if (exec_optim) {
-  init <- 0.7
-  passo <- 0.1
+  init <- 0.1
+  passo <- 0.01
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
@@ -109,9 +109,9 @@ if (exec_optim) {
 
 }else{
   # SIR Model
-  N <- NInit * 0.06
-  betaRes <- 0.21
-  gammaRes <- 0.037
+  N <- NInit * 0.109
+  betaRes <- 0.1727
+  gammaRes <- 0.0415582
   S0 <- N - Infetti[1] - Rimossi[1]
 }
 

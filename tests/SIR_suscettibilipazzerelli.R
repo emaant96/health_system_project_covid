@@ -1,7 +1,7 @@
 require(deSolve)
 require(ggplot2)
 require(config)
-source("ggplot_theme_Publication.R")
+source("../ggplot_theme_Publication.R")
 options(scipen=999)
 Sys.setenv(R_CONFIG_ACTIVE = "SIR")
 config <- config::get()

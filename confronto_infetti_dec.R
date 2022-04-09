@@ -19,7 +19,8 @@ DatasetVax <-
   )
 
 Infetti <- DatasetCovid$totale_positivi
-
+VarInfetti <- DatasetCovid$variazione_totale_positivi
+VarInfetti <- c(sma(VarInfetti,7)$fitted) * 5
 Deceduti <- ave(DatasetCovid$deceduti, FUN=function(x) c(0,diff(x)))
 Intensive <- DatasetCovid$terapia_intensiva
 smaDec <- sma(Deceduti,7)
@@ -37,17 +38,23 @@ dati_reali <- data.frame(
   infetti = Infetti,
   deceduti = DecedutiSc,
   intensive = IntensiveSc,
-  vaccinati = VaccinatiSc
+  vaccinati = VaccinatiSc,
+  varinfetti = VarInfetti
 )
 
 tempo <- as.Date(date)
-colors <- c("Infetti" = 3,"Deceduti" = 2, "Intensive" = 4, "Vaccinati"= 7)
+colors <- c("Infetti" = 3,
+            "Deceduti" = 2,
+            "Intensive" = 4,
+            "Vaccinati"= 7,
+            "Variazione Infetti" = 6)
 
 ggplot(data = dati_reali, aes(x = tempo)) +
   geom_line(size = 0.8, aes(y = infetti, color = "Infetti")) +
   geom_line(size = 0.8, aes(y = deceduti, color = "Deceduti")) +
   geom_line(size = 0.8, aes(y = intensive, color = "Intensive")) +
   geom_line(size = 0.8, aes(y = vaccinati, color = "Vaccinati")) +
+  geom_line(size = 0.8, aes(y = varinfetti, color = "Variazione Infetti")) +
   scale_color_manual("Dati",values = colors) +
   labs(title= "Andamento casi COVID-19",
        subtitle=  "Italia (2020 - 2021)",

@@ -19,21 +19,25 @@ DatasetVax <-
     )
   )
 
-initDs <- 673
+reg <- 6
+initDs <- 673 + reg
 fineDs <- length(DatasetCovid[,1])
 dsCovid <- DatasetCovid[initDs:fineDs,]
 
 Rimossi <-
   dsCovid$dimessi_guariti + dsCovid$deceduti - dsCovid$dimessi_guariti[1] - dsCovid$deceduti[1]
-
 Infetti <- dsCovid$totale_positivi
+
 Vaccinati <- DatasetVax$total_boosters
-Vaccinati <- Vaccinati[366:length(Vaccinati)]
+
+initDx <- 366 + reg
+fineDx <- length(Vaccinati)
+Vaccinati <- Vaccinati[initDx:fineDx]
 
 Pop <- 59550000
 tempo <- 0:(length(Infetti) - 1)
 NInit <- Pop
-NrowLossArray <- 1
+NrowLossArray <- 10
 lossArray <- matrix(0, NrowLossArray, 5)
 
 counter <- 1
@@ -80,8 +84,8 @@ sse.sirv <- function(params0) {
 }
 
 if (exec_optim) {
-  init <- 1
-  passo <- 0.1
+  init <- 0.01
+  passo <- 0.17
   fine <- init + passo * (NrowLossArray - 1)
   for (prop in seq(init, fine, by = passo)) {
     N <- NInit * prop
@@ -91,7 +95,7 @@ if (exec_optim) {
     R0 <- Rimossi[1]
     V0 <- Vaccinati[1]
     
-    params0 <- c(0.076, 0.027, 0.5)
+    params0 <- c(0.5, 0.5, 0.5)
     
     fit <- optim(
       params0,
